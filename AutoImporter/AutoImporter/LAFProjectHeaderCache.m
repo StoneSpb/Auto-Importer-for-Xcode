@@ -6,26 +6,29 @@
 //  Copyright (c) 2014 luisfloreani.com. All rights reserved.
 //
 
-#import <Foundation/NSProxy.h>
 #import "LAFProjectHeaderCache.h"
-#import "XCProject.h"
-#import "XCSourceFile.h"
-#import "XCSourceFile+Path.h"
+
 #import "LAFCategoryProcessor.h"
 #import "LAFClassProcessor.h"
-#import "LAFProtocolProcessor.h"
 #import "LAFIdentifier.h"
+#import "LAFProtocolProcessor.h"
+#import "LAFSrcRootFinder.h"
+#import "XCProject.h"
+#import "XCSourceFile+Path.h"
+#import "XCSourceFile.h"
 
 #define kPatternRegExp @"regexp"
 #define kPatternType @"type"
 
 @interface LAFProjectHeaderCache()
 
+@property (nonatomic, copy) NSString *srcRootPath;
+
 // value is NSString
 @property (nonatomic, strong) NSMapTable *headersByIdentifiers;
 
 // value is an array of LAFIdentifier
-@property (nonatomic, strong) NSMapTable *identifiersByHeader;
+@property (nonatomic, strong) NSMapTable *identifiersByHeaders;
 
 @property (nonatomic, strong) NSOperationQueue *headersQueue;
 
@@ -33,24 +36,25 @@
 
 @implementation LAFProjectHeaderCache
 
-- (instancetype)initWithProjectPath:(NSString *)filePath
+- (instancetype)initWithProjectPath:(NSString *)projectPath
 {
     self = [super init];
     if (self) {
-        _filePath = filePath;
-        _headersByIdentifiers = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
-        _identifiersByHeader = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory valueOptions:NSPointerFunctionsStrongMemory];
+        _projectPath = projectPath;
+        _srcRootPath = [LAFSrcRootFinder findSrcRootFromPath:projectPath];
+        _headersByIdentifiers = [NSMapTable strongToStrongObjectsMapTable];
+        _identifiersByHeaders = [NSMapTable strongToStrongObjectsMapTable];
         _headersQueue = [NSOperationQueue new];
         _headersQueue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
 
-- (void)refresh:(dispatch_block_t)doneBlock {
+- (void)refreshWithCompletion:(dispatch_block_t)doneBlock {
     [_headersByIdentifiers removeAllObjects];
-    [_identifiersByHeader removeAllObjects];
+    [_identifiersByHeaders removeAllObjects];
     
-    XCProject *project = [XCProject projectWithFilePath:_filePath];
+    XCProject *project = [XCProject projectWithFilePath:self.projectPath];
     [_headersQueue addOperationWithBlock:^{
         [self updateProject:project];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -59,46 +63,102 @@
     }];
 }
 
-- (BOOL)containsHeader:(NSString *)headerPath {
-    return [[[_identifiersByHeader keyEnumerator] allObjects] containsObject:[headerPath lastPathComponent]];
+- (BOOL)containsHeaderWithPath:(NSString *)headerPath {
+    LAFIdentifier* header = [self headerIdentifierWithFilePath:headerPath];
+    return [_identifiersByHeaders objectForKey:header] != nil;
 }
 
-- (void)refreshHeader:(NSString *)headerPath {
-    for (LAFIdentifier *identifier in [_identifiersByHeader objectForKey:[headerPath lastPathComponent]]) {
+- (void)refreshHeaderWithPath:(NSString *)headerPath {
+    LAFIdentifier* header = [self headerIdentifierWithFilePath:headerPath];
+    NSMutableArray *identifiers = [_identifiersByHeaders objectForKey:header];
+    for (LAFIdentifier *identifier in identifiers) {
         [_headersByIdentifiers removeObjectForKey:identifier];
     }
-    
-    NSMutableArray *identifiers = [_identifiersByHeader objectForKey:[headerPath lastPathComponent]];
+
     [identifiers removeAllObjects];
     
-    [self processHeaderPath:headerPath];
+    [self processHeader:header];
 }
 
-- (NSString *)headerForIdentifier:(NSString *)name {
-    LAFIdentifier *identifier = [LAFIdentifier new];
-    identifier.name = name;
+- (LAFIdentifier *)headerForIdentifier:(NSString *)name {
+    LAFIdentifier *identifier = [[LAFIdentifier alloc] initWithName:name];
     return [_headersByIdentifiers objectForKey:identifier];
 }
 
 - (NSArray *)headers {
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSString *header in [[_identifiersByHeader keyEnumerator] allObjects]) {
-        LAFIdentifier *identifier = [LAFIdentifier new];
-        identifier.name = header;
-        identifier.type = LAFIdentifierTypeHeader;
-        [array addObject:identifier];
-    }
-    return array;
+    return _identifiersByHeaders.keyEnumerator.allObjects;
 }
 
 - (NSArray *)identifiers {
-    NSMutableArray *identifiers = [NSMutableArray array];
-    for (NSString *header in [[_identifiersByHeader keyEnumerator] allObjects]) {
-        NSArray *objs = [_identifiersByHeader objectForKey:header];
-        [identifiers addObjectsFromArray:objs];
-    }
-    return identifiers;
+    return _headersByIdentifiers.keyEnumerator.allObjects;
 }
+
+- (BOOL)processHeader:(LAFIdentifier *)header {
+    @autoreleasepool {
+        NSError *error = nil;
+        NSString *content = [NSString stringWithContentsOfFile:header.fullPath
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:&error];
+        if (error) {
+            return NO;
+        }
+        
+        NSMutableArray *identifiers = [_identifiersByHeaders objectForKey:header];
+        if (!identifiers) {
+            identifiers = [NSMutableArray array];
+            [_identifiersByHeaders setObject:identifiers forKey:header];
+        }
+        
+        NSArray *processors = @[
+          [LAFCategoryProcessor new],
+          [LAFClassProcessor new],
+          [LAFProtocolProcessor new]
+        ];
+
+        for (LAFElementProcessor *processor in processors) {
+            NSArray *elements = [processor createElements:content];
+            [identifiers addObjectsFromArray:elements];
+            for (LAFIdentifier *element in elements) {
+                [_headersByIdentifiers setObject:header forKey:element];
+            }
+        }
+        
+        return YES;
+    }
+}
+
+- (void)updateProject:(XCProject *)project {
+    NSDate *start = [NSDate date];
+
+    NSMutableSet *missingFiles = [NSMutableSet set];
+    for (XCSourceFile *header in project.headerFiles) {
+        LAFIdentifier *headerIdentifier = [self headerIdentifierWithFilePath:header.fullPath];
+        if (![self processHeader:headerIdentifier]) {
+            NSString *file = [header.pathRelativeToProjectRoot lastPathComponent];
+            if (file) {
+                [missingFiles addObject:file];
+            }
+        }
+    }
+
+    NSString *projectPath = project.filePath;
+    NSString *projectDir = [projectPath stringByDeletingLastPathComponent];
+    NSArray *missingHeaderFullPaths = [self fullPathsForFiles:missingFiles inDirectory:projectDir];
+    
+    for (NSString *fullPath in missingHeaderFullPaths) {
+        LAFIdentifier *headerIdentifier = [self headerIdentifierWithFilePath:fullPath];
+        [self processHeader:headerIdentifier];
+    }
+
+    NSTimeInterval executionTime = -[start timeIntervalSinceNow];
+    
+    LAFLog(@"%llu Headers in project %@ - parse time: %f",
+           (uint64_t)_headersByIdentifiers.count,
+           [projectPath lastPathComponent],
+           executionTime);
+}
+
+#pragma mark -
 
 - (NSArray *)fullPathsForFiles:(NSSet *)fileNames inDirectory:(NSString *)directoryPath {
     NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
@@ -115,57 +175,13 @@
     return fullPaths;
 }
 
-- (BOOL)processHeaderPath:(NSString *)headerPath {
-    @autoreleasepool {
-        NSError *error = nil;
-        NSString *content = [NSString stringWithContentsOfFile:headerPath encoding:NSUTF8StringEncoding error:&error];
-        if (error) {
-            return NO;
-        }
-        
-        NSMutableArray *identifiers = [_identifiersByHeader objectForKey:headerPath];
-        if (!identifiers) {
-            identifiers = [NSMutableArray array];
-            [_identifiersByHeader setObject:identifiers forKey:[headerPath lastPathComponent]];
-        }
-        
-        NSArray *processors = @[[LAFCategoryProcessor new], [LAFClassProcessor new], [LAFProtocolProcessor new]];
-
-        for (LAFElementProcessor *processor in processors) {
-            NSArray *elements = [processor createElements:content];
-            for (LAFIdentifier *element in elements) {
-                [_headersByIdentifiers setObject:[headerPath lastPathComponent] forKey:element];
-                [identifiers addObject:element];
-            }
-        }
-        
-        return YES;
-    }
-}
-
-- (void)updateProject:(XCProject *)project {
-    NSDate *start = [NSDate date];
-    NSMutableSet *missingFiles = [NSMutableSet set];
-    for (XCSourceFile *header in project.headerFiles) {
-        if (![self processHeaderPath:[header fullPath]]) {
-            NSString *file = [[header pathRelativeToProjectRoot] lastPathComponent];
-            if (file) {
-                [missingFiles addObject:file];
-            }
-        }
-    }
-    
-    NSString *projectDir = [[project filePath] stringByDeletingLastPathComponent];
-    NSArray *missingHeaderFullPaths = [self fullPathsForFiles:missingFiles inDirectory:projectDir];
-    
-    for (NSString *headerMissingFullpath in missingHeaderFullPaths) {
-        [self processHeaderPath:headerMissingFullpath];
-    }
-    
-    NSDate *methodFinish = [NSDate date];
-    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:start];
-    
-    LAFLog(@"%d Headers in project %@ - parse time: %f", (int)[_headersByIdentifiers count], [[project filePath] lastPathComponent], executionTime);
+- (LAFIdentifier *)headerIdentifierWithFilePath:(NSString *)headerPath {
+    LAFIdentifier *identifier = [[LAFIdentifier alloc] init];
+    identifier.name = headerPath.lastPathComponent;
+    identifier.fullPath = headerPath;
+    identifier.srcRootPath = self.srcRootPath;
+    identifier.type = LAFIdentifierTypeHeader;
+    return identifier;
 }
 
 @end

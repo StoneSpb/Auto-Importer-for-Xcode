@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class LAFIdentifier;
+
 @interface LAFProjectHeaderCache : NSObject
 
-@property (nonatomic, readonly) NSString *filePath;
+@property (nonatomic, readonly) NSString *projectPath;
 
 // array of LAFIdentifier
 @property (nonatomic, readonly) NSArray *identifiers;
@@ -18,10 +20,10 @@
 // array of LAFIdentifier
 @property (nonatomic, readonly) NSArray *headers;
 
-- (instancetype)initWithProjectPath:(NSString *)filePath;
-- (void)refresh:(dispatch_block_t)doneBlock;
-- (void)refreshHeader:(NSString *)headerPath;
-- (BOOL)containsHeader:(NSString *)headerPath;
-- (NSString *)headerForIdentifier:(NSString *)name;
+- (instancetype)initWithProjectPath:(NSString *)projectPath;
+- (void)refreshWithCompletion:(dispatch_block_t)doneBlock;
+- (void)refreshHeaderWithPath:(NSString *)headerPath;
+- (BOOL)containsHeaderWithPath:(NSString *)headerPath;
+- (LAFIdentifier *)headerForIdentifier:(NSString *)name;
 
 @end

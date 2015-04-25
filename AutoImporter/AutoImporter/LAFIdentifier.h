@@ -16,9 +16,12 @@ typedef NS_ENUM(NSInteger, LAFIdentifierType) {
 };
 
 @interface LAFIdentifier : NSObject
+
 @property (nonatomic) LAFIdentifierType type;
-@property (nonatomic) NSString *customTypeString;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, copy) NSString *customTypeString;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *fullPath;
+@property (nonatomic, copy) NSString *srcRootPath;
 
 - (instancetype)initWithName:(NSString *)name;
 

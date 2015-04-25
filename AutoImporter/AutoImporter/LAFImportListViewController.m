@@ -126,7 +126,7 @@
     NSIndexSet *indexes = [view.tableView selectedRowIndexes];
     if ([indexes count] == 1) {
         int index = (int)[indexes firstIndex];
-        [_delegate itemSelected:[_filtered[index] name]];
+        [_delegate itemSelected:_filtered[index]];
         [self dismiss];
     }
 }
@@ -145,7 +145,7 @@
     if ([[view.searchField stringValue] length] == 0) {
         _filtered = _items;
     } else {
-        _filtered = [_items filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.description CONTAINS[cd] %@", [view.searchField stringValue]]];
+        _filtered = [_items filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", [view.searchField stringValue]]];
     }
     
     [view.tableView reloadData];

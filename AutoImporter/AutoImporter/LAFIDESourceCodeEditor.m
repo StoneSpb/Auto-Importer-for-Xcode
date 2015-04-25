@@ -7,10 +7,13 @@
 //
 
 #import "LAFIDESourceCodeEditor.h"
+
 #import "MHXcodeDocumentNavigator.h"
 #import "DVTSourceTextStorage+Operations.h"
 #import "NSTextView+Operations.h"
 #import "NSString+Extensions.h"
+#import "LAFIdentifier.h"
+#import "LAFImportStatementFormatter.h"
 
 NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include).*[\",<].*[\",>]";
 
@@ -22,8 +25,8 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
 
 @implementation LAFIDESourceCodeEditor
 
-- (NSString *)importStatementFor:(NSString *)header {
-    return [NSString stringWithFormat:@"#import \"%@\"", header];
+- (NSString *)importStatementForHeader:(LAFIdentifier *)header {
+    return [LAFImportStatementFormatter importStatementForHeader:header];
 }
 
 - (void)cacheImports {
@@ -45,12 +48,12 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
     [_importedCache removeAllObjects];
 }
 
-- (LAFImportResult)importHeader:(NSString *)header {
-    return [self addImport:[self importStatementFor:header]];
+- (LAFImportResult)importHeader:(LAFIdentifier *)header {
+    return [self addImport:[self importStatementForHeader:header]];
 }
 
-- (BOOL)hasImportedHeader:(NSString *)header {
-    return [_importedCache containsObject:[self importStatementFor:header]];
+- (BOOL)hasImportedHeader:(LAFIdentifier *)header {
+    return [_importedCache containsObject:[self importStatementForHeader:header]];
 }
 
 - (NSView *)view {

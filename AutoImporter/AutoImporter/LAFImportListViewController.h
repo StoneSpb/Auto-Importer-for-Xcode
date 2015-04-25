@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
+@class LAFIdentifier;
+
 @protocol LAFImportListViewControllerDelegate <NSObject>
 
-- (void)itemSelected:(NSString *)item;
+- (void)itemSelected:(LAFIdentifier *)item;
 
 @end
 

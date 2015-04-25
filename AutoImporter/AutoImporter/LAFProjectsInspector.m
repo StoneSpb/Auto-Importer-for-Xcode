@@ -7,16 +7,17 @@
 //
 
 #import "LAFProjectsInspector.h"
-#import "XCFXcodePrivate.h"
-#import "NSTextView+Operations.h"
-#import "LAFProjectHeaderCache.h"
-#import "LAFImportListViewController.h"
-#import "LAFIDESourceCodeEditor.h"
+
 #import "LAFIdentifier.h"
+#import "LAFIDESourceCodeEditor.h"
+#import "LAFImportListViewController.h"
+#import "LAFProjectHeaderCache.h"
+#import "NSTextView+Operations.h"
+#import "XCFXcodePrivate.h"
 
 @interface LAFProjectsInspector () <LAFImportListViewControllerDelegate>
 @property (nonatomic, strong) NSMapTable *projectsByWorkspace;
-@property (nonatomic, strong) LAFIDESourceCodeEditor *editor;
+@property (nonatomic, strong) LAFIDESourceCodeEditor* editor;
 @property BOOL loading;
 @end
 
@@ -68,8 +69,8 @@
 
 - (BOOL)updateHeader:(NSString *)headerPath {
     for (LAFProjectHeaderCache *headers in [self projectsInCurrentWorkspace]) {
-        if ([headers containsHeader:headerPath]) {
-            [headers refreshHeader:headerPath];
+        if ([headers containsHeaderWithPath:headerPath]) {
+            [headers refreshHeaderWithPath:headerPath];
             return YES;
         }
     }
@@ -92,7 +93,7 @@
     
     LAFProjectHeaderCache *projectCache = nil;
     for (LAFProjectHeaderCache *cache in [self projectsInCurrentWorkspace]) {
-        if ([cache.filePath isEqualToString:projectPath]) {
+        if ([cache.projectPath isEqualToString:projectPath]) {
             projectCache = cache;
             break;
         }
@@ -106,7 +107,7 @@
     }
     
     _loading = YES;
-    [projectCache refresh:^{
+    [projectCache refreshWithCompletion:^{
         _loading = NO;
         
         if (doneBlock) {
@@ -119,7 +120,7 @@
     LAFProjectHeaderCache *toRemove = nil;
     NSMutableArray *projects = [self projectsInCurrentWorkspace];
     for (LAFProjectHeaderCache *headers in projects) {
-        if ([headers.filePath isEqualToString:projectPath]) {
+        if ([headers.projectPath isEqualToString:projectPath]) {
             toRemove = headers;
             break;
         }
@@ -149,9 +150,9 @@
 
 - (LAFImportResult)importIdentifier:(NSString *)identifier headerOut:(NSMutableString *)headerOut {
     for (LAFProjectHeaderCache *headers in [self projectsInCurrentWorkspace]) {
-        NSString *header = [headers headerForIdentifier:identifier];
+        LAFIdentifier* header = [headers headerForIdentifier:identifier];
         if (header) {
-            [headerOut appendString:header];
+            [headerOut appendString:header.name];
             
             return [_editor importHeader:header];
         }
@@ -222,7 +223,7 @@
             }
         }
         for (LAFIdentifier *identifier in headers) {
-            if ([_editor hasImportedHeader:identifier.name]) {
+            if ([_editor hasImportedHeader:identifier]) {
                 [alreadyImported addObject:identifier];
             }
         }
@@ -236,18 +237,18 @@
 
 #pragma mark - LAFImportListViewControllerDelegate
 
-- (void)itemSelected:(NSString *)item {
+- (void)itemSelected:(LAFIdentifier *)item {
     LAFImportResult result = 0;
-    if ([item hasSuffix:@".h"]) {
+    if ([item.name hasSuffix:@".h"]) {
         result = [_editor importHeader:item];
-        [self showCaretTextBasedOn:result item:item];
+        [self showCaretTextBasedOn:result item:item.name];
     } else {
         // insert text
-        [_editor insertOnCaret:item];
+        [_editor insertOnCaret:item.name];
 
         // notify
         NSMutableString *headerOut = [NSMutableString string];
-        result = [self importIdentifier:item headerOut:headerOut];
+        result = [self importIdentifier:item.name headerOut:headerOut];
         [self showCaretTextBasedOn:result item:headerOut];
     }
 }

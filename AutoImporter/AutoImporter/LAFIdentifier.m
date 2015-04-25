@@ -51,6 +51,10 @@
     return [NSString stringWithFormat:@"[%@] %@", [self typeString], _name];
 }
 
+- (NSString*)debugDescription {
+    return [NSString stringWithFormat:@"%@: %@", self.description, _fullPath];
+}
+
 - (NSComparisonResult)localizedCaseInsensitiveCompare:(id)obj {
     return [_name localizedCaseInsensitiveCompare:[obj name]];
 }

@@ -11,6 +11,12 @@
 #import "LAFTestCase.h"
 #import "LAFIdentifier.h"
 
+static LAFIdentifier * LAFHeaderWithName(NSString *name) {
+    LAFIdentifier *identifier = [[LAFIdentifier alloc] initWithName:name];
+    identifier.type = LAFIdentifierTypeHeader;
+    return identifier;
+}
+
 @interface LAFProjectHeaderCacheTests : LAFTestCase
 @property (nonatomic, strong) NSString *projectPath;
 @end
@@ -22,7 +28,7 @@
     [super setUp];
     
     NSString *curDir = [[NSFileManager defaultManager] currentDirectoryPath];
-    _projectPath = [curDir stringByAppendingPathComponent:@"/../TestProjects/AutoImporterTestProject1/AutoImporterTestProject1.xcodeproj"];    
+    _projectPath = [curDir stringByAppendingPathComponent:@"/../TestProjects/AutoImporterTestProject1/AutoImporterTestProject1.xcodeproj"];
 }
 
 - (void)tearDown
@@ -34,12 +40,17 @@
     dispatch_group_enter(self.requestGroup);
 
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass1"], @"LAFMyClass1.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass_1"], @"LAFMyClass1.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass2"], @"LAFMyClass2.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass2Bis"], @"LAFMyClass2.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyProtocol1"], @"LAFMyClass1.h");
+    [headers refreshWithCompletion:^{
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass1"],
+                              LAFHeaderWithName(@"LAFMyClass1.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass_1"],
+                              LAFHeaderWithName(@"LAFMyClass1.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass2"],
+                              LAFHeaderWithName(@"LAFMyClass2.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass2Bis"],
+                              LAFHeaderWithName(@"LAFMyClass2.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyProtocol1"],
+                              LAFHeaderWithName(@"LAFMyClass1.h"));
         XCTAssertNil([headers headerForIdentifier:@"NSColor"]);
         
         dispatch_group_leave(self.requestGroup);
@@ -50,13 +61,19 @@
     dispatch_group_enter(self.requestGroup);
     
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_redColor;"], @"NSColor+MyColor.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_greenColor;"], @"NSColor+MyColor.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor:"], @"NSColor+MyColor.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor:offset:"], @"NSColor+MyColor.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor2:offset:"], @"NSColor+MyColor.h");
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor3:offset:"], @"NSColor+MyColor.h");
+    [headers refreshWithCompletion:^{
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_redColor;"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_greenColor;"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor:"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor:offset:"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor2:offset:"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor3:offset:"],
+                              LAFHeaderWithName(@"NSColor+MyColor.h"));
         
         dispatch_group_leave(self.requestGroup);
     }];
@@ -67,8 +84,9 @@
     dispatch_group_enter(self.requestGroup);
 
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFGroupClass1"], @"LAFGroupClass1.h");
+    [headers refreshWithCompletion:^{
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFGroupClass1"],
+                              LAFHeaderWithName(@"LAFGroupClass1.h"));
         
         dispatch_group_leave(self.requestGroup);
     }];
@@ -79,8 +97,9 @@
     dispatch_group_enter(self.requestGroup);
 
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFSubdirectoryClass1"], @"LAFSubdirectoryClass1.h");
+    [headers refreshWithCompletion:^{
+        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFSubdirectoryClass1"],
+                              LAFHeaderWithName(@"LAFSubdirectoryClass1.h"));
         
         dispatch_group_leave(self.requestGroup);
     }];
@@ -91,7 +110,7 @@
     dispatch_group_enter(self.requestGroup);
     
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
+    [headers refreshWithCompletion:^{
         XCTAssertTrue([[headers headers] containsObject:[[LAFIdentifier alloc] initWithName:@"LAFMyClass1.h"]]);
         XCTAssertTrue([[headers headers] containsObject:[[LAFIdentifier alloc] initWithName:@"LAFMyClass2.h"]]);
         XCTAssertTrue([[headers headers] containsObject:[[LAFIdentifier alloc] initWithName:@"NSColor+MyColor.h"]]);
@@ -106,9 +125,9 @@
 {
     dispatch_group_enter(self.requestGroup);
     
-    LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
-    [headers refresh:^{
-        XCTAssertNil([headers headerForIdentifier:@"LAFMyClass2BisBis"]);
+    LAFProjectHeaderCache *headersCache = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
+    [headersCache refreshWithCompletion:^{
+        XCTAssertNil([headersCache headerForIdentifier:@"LAFMyClass2BisBis"]);
         
         NSString *headerPath = [[_projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"AutoImporterTestProject1/LAFMyClass2.h"];
         
@@ -119,9 +138,10 @@
         // replace file
         [newContent writeToFile:headerPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
-        [headers refreshHeader:headerPath];
+        [headersCache refreshHeaderWithPath:headerPath];
         
-        XCTAssertEqualObjects([headers headerForIdentifier:@"LAFMyClass2BisBis"], @"LAFMyClass2.h");
+        XCTAssertEqualObjects([headersCache headerForIdentifier:@"LAFMyClass2BisBis"],
+                              LAFHeaderWithName(@"LAFMyClass2.h"));
         
         // restore file
         [content writeToFile:headerPath atomically:YES encoding:NSUTF8StringEncoding error:nil];

@@ -10,23 +10,26 @@
 #import <Cocoa/Cocoa.h>
 
 typedef enum {
-    LAFImportResultAlready,
-    LAFImportResultNotFound,
-    LAFImportResultDone,
+  LAFImportResultAlready,
+  LAFImportResultNotFound,
+  LAFImportResultDone,
 } LAFImportResult;
 
-@interface LAFIDESourceCodeEditor : NSObject
+@class LAFIdentifier;
+
+@interface LAFIDESourceCodeEditor: NSObject
 
 - (void)cacheImports;
 - (void)invalidateImportsCache;
 
 // need to call cacheImports before
-- (BOOL)hasImportedHeader:(NSString *)header;
+- (BOOL)hasImportedHeader:(LAFIdentifier *)header;
 
-- (LAFImportResult)importHeader:(NSString *)header;
+- (LAFImportResult)importHeader:(LAFIdentifier *)header;
+
 - (void)showAboveCaret:(NSString *)text color:(NSColor *)color;
-- (NSString *)selectedText;
 - (void)insertOnCaret:(NSString *)text;
+- (NSString *)selectedText;
 - (NSView *)view;
 
 @end

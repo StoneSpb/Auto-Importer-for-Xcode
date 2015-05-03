@@ -33,7 +33,8 @@
         NSRange basePartRange = NSMakeRange(0, baseComponents.count);
         NSArray* possibleBaseComponents = [components subarrayWithRange:basePartRange];
         if ([baseComponents isEqual:possibleBaseComponents]) {
-            NSRange relativePartRange = NSMakeRange(baseComponents.count, components.count - baseComponents.count);
+            NSRange relativePartRange = NSMakeRange(baseComponents.count,
+                                                    components.count - baseComponents.count);
             NSArray* relativePathComponents = [components subarrayWithRange:relativePartRange];
             return [NSString pathWithComponents:relativePathComponents];
         }

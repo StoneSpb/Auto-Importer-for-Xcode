@@ -100,7 +100,7 @@
     }
     
     if (!projectCache) {
-        LAFLog(@"creating project %@ for workspace %@", [projectPath lastPathComponent], [[self currentWorkspace] lastPathComponent]);
+        LAFLog(@"Creating project %@ for workspace %@", [projectPath lastPathComponent], [[self currentWorkspace] lastPathComponent]);
         
         projectCache = [[LAFProjectHeaderCache alloc] initWithProjectPath:projectPath];
         [[self projectsInCurrentWorkspace] addObject:projectCache];

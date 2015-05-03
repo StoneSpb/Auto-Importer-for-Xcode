@@ -13,14 +13,13 @@
 @interface LAFProjectHeaderCache : NSObject
 
 @property (nonatomic, readonly) NSString *projectPath;
-
 // array of LAFIdentifier
 @property (nonatomic, readonly) NSArray *identifiers;
-
 // array of LAFIdentifier
 @property (nonatomic, readonly) NSArray *headers;
 
 - (instancetype)initWithProjectPath:(NSString *)projectPath;
+
 - (void)refreshWithCompletion:(dispatch_block_t)doneBlock;
 - (void)refreshHeaderWithPath:(NSString *)headerPath;
 - (BOOL)containsHeaderWithPath:(NSString *)headerPath;

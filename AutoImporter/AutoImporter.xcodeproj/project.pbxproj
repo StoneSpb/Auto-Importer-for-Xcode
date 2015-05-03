@@ -218,7 +218,7 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		61C9FA5F1AEC11DB00DD637F /* Editors */ = {
+		61C9FA5F1AEC11DB00DD637F /* Editor */ = {
 			isa = PBXGroup;
 			children = (
 				E22C5B3719DDB27C00F11123 /* LAFIDESourceCodeEditor.h */,
@@ -226,7 +226,7 @@
 				6119ED161AF613BC0063D3AD /* LAFImportStatementFormatter.h */,
 				6119ED171AF613BC0063D3AD /* LAFImportStatementFormatter.m */,
 			);
-			name = Editors;
+			name = Editor;
 			sourceTree = "<group>";
 		};
 		C036A8EE277DF43B5ADBD288 /* Pods */ = {
@@ -275,7 +275,7 @@
 			children = (
 				E26F40F219C0C4DE00527019 /* External */,
 				E26F40F819C0C52300527019 /* Categories */,
-				61C9FA5F1AEC11DB00DD637F /* Editors */,
+				61C9FA5F1AEC11DB00DD637F /* Editor */,
 				E2D78B0E19EFF005009C21B7 /* Processors */,
 				6119ED151AF613400063D3AD /* UI */,
 				E26F40E919C0B95500527019 /* LAFAutoImporter.h */,

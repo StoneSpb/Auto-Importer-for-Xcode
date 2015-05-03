@@ -93,13 +93,53 @@
     return _headersByIdentifiers.keyEnumerator.allObjects;
 }
 
+- (void)updateProject:(XCProject *)project {
+    NSDate *startDate = [NSDate date];
+
+    NSString *projectPath = project.filePath;
+    NSString *projectName = projectPath.lastPathComponent;
+    NSString *projectDir = [projectPath stringByDeletingLastPathComponent];
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSMutableSet *missingFiles = [[NSMutableSet alloc] init];
+
+    LAFLog(@"%@: %llu headers", projectName, (uint64_t)project.headerFiles.count);
+
+    for (XCSourceFile *header in project.headerFiles) {
+        NSString *fullPath = header.fullPath;
+        if ([fileManager fileExistsAtPath:fullPath]) {
+            [self processHeaderAtPath:fullPath];
+        } else {
+            NSString *fileName = fullPath.lastPathComponent;
+            if (fileName) {
+                [missingFiles addObject:fileName];
+            }
+        }
+    }
+
+    NSArray *missingHeaderFullPaths = [self fullPathsForFiles:missingFiles inDirectory:projectDir];
+    for (NSString *headerPath in missingHeaderFullPaths) {
+        [self processHeaderAtPath:headerPath];
+    }
+
+    NSTimeInterval executionTime = -[startDate timeIntervalSinceNow];
+    LAFLog(@"%@: processed in %fs", projectName, executionTime);
+}
+
+#pragma mark - Header processing
+
+- (void)processHeaderAtPath:(NSString *)headerPath {
+    LAFIdentifier *headerIdentifier = [self headerIdentifierWithFilePath:headerPath];
+    [self processHeader:headerIdentifier];
+}
+
 - (BOOL)processHeader:(LAFIdentifier *)header {
     @autoreleasepool {
         NSError *error = nil;
         NSString *content = [NSString stringWithContentsOfFile:header.fullPath
                                                       encoding:NSUTF8StringEncoding
                                                          error:&error];
-        if (error) {
+        if (!content || error) {
             return NO;
         }
         
@@ -110,9 +150,9 @@
         }
         
         NSArray *processors = @[
-          [LAFCategoryProcessor new],
-          [LAFClassProcessor new],
-          [LAFProtocolProcessor new]
+          [[LAFCategoryProcessor alloc] init],
+          [[LAFClassProcessor alloc] init],
+          [[LAFProtocolProcessor alloc] init]
         ];
 
         for (LAFElementProcessor *processor in processors) {
@@ -127,52 +167,21 @@
     }
 }
 
-- (void)updateProject:(XCProject *)project {
-    NSDate *start = [NSDate date];
-
-    NSMutableSet *missingFiles = [NSMutableSet set];
-    for (XCSourceFile *header in project.headerFiles) {
-        LAFIdentifier *headerIdentifier = [self headerIdentifierWithFilePath:header.fullPath];
-        if (![self processHeader:headerIdentifier]) {
-            NSString *file = [header.pathRelativeToProjectRoot lastPathComponent];
-            if (file) {
-                [missingFiles addObject:file];
-            }
-        }
-    }
-
-    NSString *projectPath = project.filePath;
-    NSString *projectDir = [projectPath stringByDeletingLastPathComponent];
-    NSArray *missingHeaderFullPaths = [self fullPathsForFiles:missingFiles inDirectory:projectDir];
-    
-    for (NSString *fullPath in missingHeaderFullPaths) {
-        LAFIdentifier *headerIdentifier = [self headerIdentifierWithFilePath:fullPath];
-        [self processHeader:headerIdentifier];
-    }
-
-    NSTimeInterval executionTime = -[start timeIntervalSinceNow];
-    
-    LAFLog(@"%llu Headers in project %@ - parse time: %f",
-           (uint64_t)_headersByIdentifiers.count,
-           [projectPath lastPathComponent],
-           executionTime);
-}
-
 #pragma mark -
 
 - (NSArray *)fullPathsForFiles:(NSSet *)fileNames inDirectory:(NSString *)directoryPath {
     NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
     
-    NSMutableArray *fullPaths = [NSMutableArray array];
+    NSMutableArray *fullPaths = [[NSMutableArray alloc] init];
     
-    NSString *filePath = nil;
-    while ( (filePath = [enumerator nextObject] ) != nil ){
-        if ([fileNames containsObject:[filePath lastPathComponent]]) {
-            [fullPaths addObject:[directoryPath stringByAppendingPathComponent:filePath]];
+    NSString *relativePath = nil;
+    while ((relativePath = [enumerator nextObject]) != nil){
+        if ([fileNames containsObject:relativePath.lastPathComponent]) {
+            [fullPaths addObject:[directoryPath stringByAppendingPathComponent:relativePath]];
         }
     }
     
-    return fullPaths;
+    return [fullPaths copy];
 }
 
 - (LAFIdentifier *)headerIdentifierWithFilePath:(NSString *)headerPath {

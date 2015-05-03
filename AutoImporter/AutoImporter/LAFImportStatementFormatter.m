@@ -27,6 +27,7 @@
 }
 
 + (NSString*)filePath:(NSString *)path relativeToPath:(NSString *)basePath {
+    path = [path stringByStandardizingPath];
     NSArray* components = path.pathComponents;
     NSArray* baseComponents = basePath.pathComponents;
     if (components.count > baseComponents.count) {

@@ -12,7 +12,8 @@
 
 static NSString* AbsolutePath(NSString* relativePath) {
     NSString* currentDir = [[NSFileManager defaultManager] currentDirectoryPath];
-    return [currentDir stringByAppendingPathComponent:relativePath];
+    NSString* fullPath = [currentDir stringByAppendingPathComponent:relativePath];
+    return fullPath;
 }
 
 static NSString* ProjectPathWithSrcRoot() {
@@ -31,7 +32,7 @@ static NSString* ProjectPathWithoutSrcRoot() {
 
 - (void)testSrcRoot {
     NSString* srcRootPath = [LAFSrcRootFinder findSrcRootFromPath:ProjectPathWithSrcRoot()];
-    NSString* expectedPath = AbsolutePath(@"/../TestProjects/AutoImporterTestProject2/src");
+    NSString* expectedPath = [AbsolutePath(@"/../TestProjects/AutoImporterTestProject2/src") stringByStandardizingPath];
     XCTAssertEqualObjects(srcRootPath, expectedPath);
 }
 

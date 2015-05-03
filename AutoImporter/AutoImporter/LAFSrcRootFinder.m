@@ -12,7 +12,7 @@
 
 + (NSString*)findSrcRootFromPath:(NSString*)path {
     NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSString* currentPath = path;
+    NSString* currentPath = [path stringByStandardizingPath];
 
     // Just in case
     NSInteger maxIterations = 1000;

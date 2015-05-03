@@ -58,4 +58,10 @@ static NSString* ImportStatementForPath(NSString* path) {
     XCTAssertEqualObjects(statement, ImportStatementForPath(@"Header1.h"));
 }
 
+- (void)testHeaderWithBasePathAndUnstandartizedRelativePath {
+    LAFIdentifier *header = HeaderWithPathAndSrcRoot(@"/Test/src_root/test/subfolder/../Header1.h", self.basePath);
+    NSString *statement = [LAFImportStatementFormatter importStatementForHeader:header];
+    XCTAssertEqualObjects(statement, ImportStatementForPath(@"test/Header1.h"));
+}
+
 @end

@@ -10,6 +10,6 @@
 
 @interface XCSourceFile (Path)
 
-- (NSString *)fullPath;
+- (NSString *)fullPathAgainstProjectDir:(NSString *)projectDir;
 
 @end

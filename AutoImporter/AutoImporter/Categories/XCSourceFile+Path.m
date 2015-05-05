@@ -19,11 +19,9 @@
 
 //@dynamic project;
 
-- (NSString *)fullPath {
-    XCProject *project = [self valueForKey:@"_project"];
-    NSString *projectPath = [project filePath];
+- (NSString *)fullPathAgainstProjectDir:(NSString *)projectDir {
     NSString *filePath = [self pathRelativeToProjectRoot];
-    return [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:filePath];
+    return [projectDir stringByAppendingPathComponent:filePath];
 }
 
 @end

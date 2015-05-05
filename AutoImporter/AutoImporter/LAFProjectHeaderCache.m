@@ -106,7 +106,7 @@
     LAFLog(@"%@: %llu headers", projectName, (uint64_t)project.headerFiles.count);
 
     for (XCSourceFile *header in project.headerFiles) {
-        NSString *fullPath = header.fullPath;
+        NSString *fullPath = [header fullPathAgainstProjectDir:projectDir];
         if ([fileManager fileExistsAtPath:fullPath]) {
             [self processHeaderAtPath:fullPath];
         } else {

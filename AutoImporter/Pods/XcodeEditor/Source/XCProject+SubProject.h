@@ -9,13 +9,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import <Foundation/Foundation.h>
+
 #import "XCProject.h"
 
 @interface XCProject (SubProject)
-
 
 - (NSString *)referenceProxyKeyForName:(NSString *)name;
 
@@ -29,7 +27,6 @@
 - (NSMutableDictionary *)PBXProjectDict;
 
 - (void)removeProxies:(NSString *)xcodeprojKey;
-
 - (void)addProxies:(XCSubProjectDefinition *)xcodeproj;
 
 - (void)removeFromProjectReferences:(NSString *)key forProductsGroup:(NSString *)productsGroupKey;

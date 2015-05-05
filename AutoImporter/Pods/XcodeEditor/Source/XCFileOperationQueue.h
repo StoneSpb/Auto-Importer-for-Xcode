@@ -9,13 +9,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
-
 
 @interface XCFileOperationQueue : NSObject
 {
-
 @private
     NSString* _baseDirectory;
     NSMutableDictionary* _filesToWrite;
@@ -24,22 +21,16 @@
     NSMutableArray* _directoriesToCreate;
 }
 
-
-- (id)initWithBaseDirectory:(NSString*)baseDirectory;
+- (instancetype)initWithBaseDirectory:(NSString*)baseDirectory;
 
 - (BOOL)fileWithName:(NSString*)name existsInProjectDirectory:(NSString*)directory;
 
 - (void)queueTextFile:(NSString*)fileName inDirectory:(NSString*)directory withContents:(NSString*)contents;
-
 - (void)queueDataFile:(NSString*)fileName inDirectory:(NSString*)directory withContents:(NSData*)contents;
-
 - (void)queueFrameworkWithFilePath:(NSString*)filePath inDirectory:(NSString*)directory;
-
 - (void)queueDeletion:(NSString*)filePath;
-
 - (void)queueDirectory:(NSString*)withName inDirectory:(NSString*)parentDirectory;
 
 - (void)commitFileOperations;
 
 @end
-

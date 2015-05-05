@@ -9,7 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
 
 @class XCProject;
@@ -21,7 +20,6 @@
 */
 @interface XCTarget : NSObject
 {
-
     XCProject* _project;
     NSString* _key;
     NSString* _name;
@@ -40,26 +38,22 @@
 @property(nonatomic, strong) NSString* productName;
 @property(nonatomic, strong, readonly) NSString* productReference;
 
-+ (XCTarget*)targetWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference;
-
-- (id)initWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference;
++ (instancetype)targetWithProject:(XCProject*)project
+                              key:(NSString*)key
+                             name:(NSString*)name
+                      productName:(NSString*)productName
+                 productReference:(NSString*)productReference;
 
 - (NSArray*)resources;
 
 - (NSArray*)members;
 
 - (NSDictionary*)configurations;
-
 - (XCProjectBuildConfig *)configurationWithName:(NSString*)name;
-
 - (XCProjectBuildConfig *)defaultConfiguration;
 
 - (void)addMember:(XCSourceFile*)member;
-
 - (void)removeMemberWithKey:(NSString*)key;
-
 - (void)removeMembersWithKeys:(NSArray*)keys;
 
 - (void)addDependency:(NSString*)key;
@@ -67,4 +61,3 @@
 - (instancetype)duplicateWithTargetName:(NSString*)targetName productName:(NSString*)productName;
 
 @end
-

@@ -14,14 +14,13 @@
 @implementation XCKeyBuilder
 
 /* ================================================= Class Methods ================================================== */
-+ (XCKeyBuilder*)forItemNamed:(NSString*)name
++ (instancetype)forItemNamed:(NSString*)name
 {
     NSData* data = [name dataUsingEncoding:NSUTF8StringEncoding];
     return [[XCKeyBuilder alloc] initHashValueMD5HashWithBytes:[data bytes] length:[data length]];
-
 }
 
-+ (XCKeyBuilder*)createUnique
++ (instancetype)createUnique
 {
     CFUUIDRef theUUID = CFUUIDCreate(NULL);
     CFUUIDBytes bytes = CFUUIDGetUUIDBytes(theUUID);
@@ -31,7 +30,7 @@
 }
 
 /* ================================================== Initializers ================================================== */
-- (id)initHashValueMD5HashWithBytes:(const void*)bytes length:(NSUInteger)length
+- (instancetype)initHashValueMD5HashWithBytes:(const void*)bytes length:(NSUInteger)length
 {
     self = [super init];
     if (self != nil)
@@ -53,6 +52,5 @@
     }
     return [[stringValue substringToIndex:24] uppercaseString];
 }
-
 
 @end

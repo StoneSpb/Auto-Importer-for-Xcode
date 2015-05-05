@@ -9,8 +9,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
+
 #import "XCAbstractDefinition.h"
 
 typedef enum
@@ -22,41 +22,34 @@ typedef enum
 
 @interface XCClassDefinition : XCAbstractDefinition
 {
-
     NSString* _className;
     NSString* _header;
     NSString* _source;
 
 @private
     ClassDefinitionLanguage _language;
+    NSString* _sourceFileName;
 }
 
 @property(strong, nonatomic, readonly) NSString* className;
 @property(nonatomic, strong) NSString* header;
 @property(nonatomic, strong) NSString* source;
 
-+ (XCClassDefinition*)classDefinitionWithName:(NSString*)fileName;
-
-+ (XCClassDefinition*)classDefinitionWithName:(NSString*)className language:(ClassDefinitionLanguage)language;
+/**
+ * Creates a new objective-c class definition.
+ */
++ (instancetype)classDefinitionWithName:(NSString*)fileName;
 
 /**
-* Initializes a new objective-c class definition.
-*/
-- (id)initWithName:(NSString*)fileName;
-
-/**
-* Initializes a new class definition with the specified language.
-*/
-- (id)initWithName:(NSString*)className language:(ClassDefinitionLanguage)language;
+ * Creates a new class definition with the specified language.
+ */
++ (instancetype)classDefinitionWithName:(NSString*)className language:(ClassDefinitionLanguage)language;
 
 - (BOOL)isObjectiveC;
-
 - (BOOL)isObjectiveCPlusPlus;
-
 - (BOOL)isCPlusPlus;
 
-- (NSString*)headerFileName;
-
-- (NSString*)sourceFileName;
+@property(nonatomic, copy, readonly) NSString* headerFileName;
+@property(nonatomic, copy, readonly) NSString* sourceFileName;
 
 @end

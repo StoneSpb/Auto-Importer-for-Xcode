@@ -9,7 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#import <Foundation/Foundation.h>
 
 #import "XcodeMemberType.h"
 
@@ -25,4 +25,5 @@
 * Group members can either be other groups (PBXGroup) or source files (PBXFileReference).
 */
 - (XcodeMemberType)groupMemberType;
+
 @end

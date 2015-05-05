@@ -9,8 +9,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
+
 #import "XcodeGroupMember.h"
 
 @class XCProject;
@@ -29,11 +29,9 @@
 */
 @interface XCGroup : NSObject <XcodeGroupMember>
 {
-
     NSString* _pathRelativeToParent;
     NSString* _key;
     NSString* _alias;
-
 
 @private
     NSString* _pathRelativeToProjectRoot;
@@ -42,7 +40,6 @@
 
     XCFileOperationQueue* _fileOperationQueue; // weak
     XCProject* _project;
-
 }
 
 
@@ -73,14 +70,15 @@
 
 #pragma mark Initializers
 
-+ (XCGroup*)groupWithProject:(XCProject*)project key:(NSString*)key alias:(NSString*)alias path:(NSString*)path children:(NSArray*)children;
-
-- (id)initWithProject:(XCProject*)project key:(NSString*)key alias:(NSString*)alias path:(NSString*)path children:(NSArray*)children;
++ (XCGroup*)groupWithProject:(XCProject*)project
+                         key:(NSString*)key
+                       alias:(NSString*)alias
+                        path:(NSString*)path
+                    children:(NSArray*)children;
 
 #pragma mark Parent group
 
 - (void)removeFromParentGroup;
-
 - (void)removeFromParentDeletingChildren:(BOOL)deleteChildren;
 
 - (XCGroup*)parentGroup;

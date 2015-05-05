@@ -9,7 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#import <Foundation/Foundation.h>
 
 @class XCProject;
 
@@ -30,12 +30,12 @@
 - (instancetype)initWithProject:(XCProject*)project key:(NSString*)key;
 
 - (void)addBuildSettings:(NSDictionary*)buildSettings;
-
 - (void)addOrReplaceSetting:(id <NSCopying>)setting forKey:(NSString*)key;
 
 - (id <NSCopying>)valueForKey:(NSString*)key;
 
-+ (NSString*)duplicatedBuildConfigurationListWithKey:(NSString*)buildConfigurationListKey inProject:(XCProject*)project
-    withBuildConfigurationVisitor:(void (^)(NSMutableDictionary*))buildConfigurationVisitor;
++ (NSString*)duplicatedBuildConfigurationListWithKey:(NSString*)buildConfigurationListKey
+                                           inProject:(XCProject*)project
+                       withBuildConfigurationVisitor:(void (^)(NSMutableDictionary*))buildConfigurationVisitor;
 
 @end

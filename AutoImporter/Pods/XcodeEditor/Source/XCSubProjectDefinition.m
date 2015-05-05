@@ -9,14 +9,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
+#import "XCSubProjectDefinition.h"
 
 #import "XCProject.h"
 #import "XCProject+SubProject.h"
-#import "XCSubProjectDefinition.h"
 
 @interface XCSubProjectDefinition ()
+
 @property (nonatomic, strong, readwrite) NSString *relativePath;
+
 @end
 
 @implementation XCSubProjectDefinition
@@ -30,15 +31,18 @@
 @synthesize key = _key;
 @synthesize fullProjectPath = _fullProjectPath;
 
+
 //-------------------------------------------------------------------------------------------
 #pragma mark - Class Methods
 //-------------------------------------------------------------------------------------------
 
-+ (XCSubProjectDefinition *)withName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
++ (instancetype)subProjectDefinitionWithName:(NSString *)name
+                                        path:(NSString *)path
+                               parentProject:(XCProject *)parentProject
 {
-
-    return [[XCSubProjectDefinition alloc] initWithName:name path:path parentProject:parentProject];
+    return [[self alloc] initWithName:name path:path parentProject:parentProject];
 }
+
 
 //-------------------------------------------------------------------------------------------
 #pragma mark - Initialization & Destruction
@@ -46,7 +50,7 @@
 
 // Note - _path is most often going to be an absolute path.  The method pathRelativeToProjectRoot below should be
 // used to get the form that's stored in the main project file.
-- (id)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
+- (instancetype)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject
 {
     self = [super init];
     if (self) {
@@ -54,7 +58,7 @@
         _path = [path copy];
         _type = XcodeProject;
         _parentProject = parentProject;
-        _subProject = [[XCProject alloc] initWithFilePath:[NSString stringWithFormat:@"%@/%@.xcodeproj", path, name]];
+        _subProject = [XCProject projectWithFilePath:[NSString stringWithFormat:@"%@/%@.xcodeproj", path, name]];
     }
     return self;
 }
@@ -76,20 +80,20 @@
 // returns an array of names of the build products of this project
 - (NSArray *)buildProductNames
 {
-    NSMutableArray *results = [NSMutableArray array];
-    NSDictionary *objects = [_subProject objects];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    NSDictionary *objects = _subProject.objects;
     [objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXProjectType) {
-            NSString *productRefGroupKey = [obj valueForKey:@"productRefGroup"];
-            NSDictionary *products = [objects valueForKey:productRefGroupKey];
-            NSArray *children = [products valueForKey:@"children"];
+        if ([obj[@"isa"] xce_hasProjectType]) {
+            NSString *productRefGroupKey = obj[@"productRefGroup"];
+            NSDictionary *products = objects[productRefGroupKey];
+            NSArray *children = products[@"children"];
             for (NSString *childKey in children) {
-                NSDictionary *child = [objects valueForKey:childKey];
-                [results addObject:[child valueForKey:@"path"]];
+                NSDictionary *child = objects[childKey];
+                [results addObject:child[@"path"]];
             }
         }
     }];
-    return results;
+    return [results copy];
 }
 
 // returns the key of the PBXFileReference of the xcodeproj file
@@ -103,7 +107,7 @@
     return [_key copy];
 }
 
-- (void)initFullProjectPath:(NSString *)fullProjectPath groupPath:(NSString *)groupPath
+- (void)setFullProjectPath:(NSString *)fullProjectPath groupPath:(NSString *)groupPath
 {
     if (groupPath != nil) {
         NSMutableArray *fullPathComponents = [[fullProjectPath pathComponents] mutableCopy];
@@ -159,8 +163,8 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"XcodeprojDefinition: sourceFileName = %@, path=%@, type=%li", _name, _path,
-            (long)_type];
+    return [NSString stringWithFormat:@"XcodeprojDefinition: sourceFileName = %@, path=%@, type=%li",
+                                      _name, _path, (long)_type];
 }
 
 @end

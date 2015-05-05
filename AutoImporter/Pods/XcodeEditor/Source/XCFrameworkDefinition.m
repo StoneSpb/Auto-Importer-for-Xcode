@@ -9,8 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import "XCFrameworkDefinition.h"
 
 @implementation XCFrameworkDefinition
@@ -18,19 +16,20 @@
 @synthesize filePath = _filePath;
 @synthesize copyToDestination = _copyToDestination;
 
+
 /* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCFrameworkDefinition*)frameworkDefinitionWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination
++ (instancetype)frameworkDefinitionWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination
 {
-
-    return [[XCFrameworkDefinition alloc] initWithFilePath:filePath copyToDestination:copyToDestination];
+    return [[self alloc] initWithFilePath:filePath copyToDestination:copyToDestination];
 }
+
 
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination
+- (instancetype)initWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination
 {
     self = [super init];
     if (self)
@@ -41,6 +40,7 @@
     return self;
 }
 
+
 /* ====================================================================================================================================== */
 #pragma mark - Interface Methods
 
@@ -48,6 +48,5 @@
 {
     return [_filePath lastPathComponent];
 }
-
 
 @end

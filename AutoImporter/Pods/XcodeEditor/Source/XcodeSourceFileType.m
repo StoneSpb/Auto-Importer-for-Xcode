@@ -9,16 +9,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import "XcodeSourceFileType.h"
 
 static NSDictionary* NSDictionaryWithXCFileReferenceTypes()
 {
     static NSDictionary* dictionary;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         dictionary = @{
             @"sourcecode.c.h"        : @(SourceCodeHeader),
             @"sourcecode.c.objc"     : @(SourceCodeObjC),
@@ -42,42 +39,42 @@ static NSDictionary* NSDictionaryWithXCFileReferenceTypes()
 
 NSString* NSStringFromXCSourceFileType(XcodeSourceFileType type)
 {
-    return [[NSDictionaryWithXCFileReferenceTypes() allKeysForObject:@(type)] objectAtIndex:0];
+    return [[NSDictionaryWithXCFileReferenceTypes() allKeysForObject:@(type)] firstObject];
 }
 
 XcodeSourceFileType XCSourceFileTypeFromStringRepresentation(NSString* string)
 {
     NSDictionary* typeStrings = NSDictionaryWithXCFileReferenceTypes();
+    NSNumber* typeValue = typeStrings[string];
 
-    if (typeStrings[string])
-    {
-        return (XcodeSourceFileType) [typeStrings[string] intValue];
-    }
-    else
-    {
+    if (typeValue) {
+        return (XcodeSourceFileType) [typeValue intValue];
+    } else {
         return FileTypeNil;
     }
 }
 
-
 XcodeSourceFileType XCSourceFileTypeFromFileName(NSString* fileName)
 {
-    if ([fileName hasSuffix:@".h"] || [fileName hasSuffix:@".hh"] || [fileName hasSuffix:@".hpp"] || [fileName hasSuffix:@".hxx"])
-    {
+    if ([fileName hasSuffix:@".h"] ||
+        [fileName hasSuffix:@".hh"] ||
+        [fileName hasSuffix:@".hpp"] ||
+        [fileName hasSuffix:@".hxx"]) {
         return SourceCodeHeader;
     }
-    if ([fileName hasSuffix:@".c"] || [fileName hasSuffix:@".m"])
-    {
+
+    if ([fileName hasSuffix:@".c"] ||
+        [fileName hasSuffix:@".m"]) {
         return SourceCodeObjC;
     }
-    if ([fileName hasSuffix:@".mm"])
-    {
+
+    if ([fileName hasSuffix:@".mm"]) {
         return SourceCodeObjCPlusPlus;
     }
-    if ([fileName hasSuffix:@".cpp"])
-    {
+
+    if ([fileName hasSuffix:@".cpp"]) {
         return SourceCodeCPlusPlus;
     }
+
     return FileTypeNil;
 }
-

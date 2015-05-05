@@ -9,49 +9,47 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
 #import "XCClassDefinition.h"
 
 @implementation XCClassDefinition
-
 
 @synthesize className = _className;
 @synthesize header = _header;
 @synthesize source = _source;
 
-/* ====================================================================================================================================== */
+
+/* ================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCClassDefinition*)classDefinitionWithName:(NSString*)fileName
++ (instancetype)classDefinitionWithName:(NSString*)fileName
 {
-    return [[XCClassDefinition alloc] initWithName:fileName];
+    return [[self alloc] initWithName:fileName];
 }
 
-+ (XCClassDefinition*)classDefinitionWithName:(NSString*)className language:(ClassDefinitionLanguage)language
++ (instancetype)classDefinitionWithName:(NSString*)className language:(ClassDefinitionLanguage)language
 {
-    return [[XCClassDefinition alloc] initWithName:className language:language];
+    return [[self alloc] initWithName:className language:language];
 }
 
-/* ====================================================================================================================================== */
+
+/* ================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithName:(NSString*)className
+- (instancetype)initWithName:(NSString*)className
 {
     return [self initWithName:className language:ObjectiveC];
 }
 
-- (id)initWithName:(NSString*)className language:(ClassDefinitionLanguage)language
+- (instancetype)initWithName:(NSString*)className language:(ClassDefinitionLanguage)language
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         _className = [className copy];
-        if (!(language == ObjectiveC || language == ObjectiveCPlusPlus || language == CPlusPlus))
-        {
-            [NSException raise:NSInvalidArgumentException format:@"Language must be one of ObjectiveC, ObjectiveCPlusPlus"];
+        if (!(language == ObjectiveC ||
+              language == ObjectiveCPlusPlus ||
+              language == CPlusPlus)) {
+            [NSException raise:NSInvalidArgumentException
+                        format:@"Language must be one of ObjectiveC, ObjectiveCPlusPlus"];
         }
         _language = language;
     }
@@ -80,26 +78,23 @@
 - (NSString*)headerFileName
 {
     return [_className stringByAppendingString:@".h"];
-
 }
 
 - (NSString*)sourceFileName
 {
-    NSString* sourceFileName = nil;
-    if ([self isObjectiveC])
-    {
-        sourceFileName = [_className stringByAppendingString:@".m"];
+    if (!_sourceFileName) {
+        if ([self isObjectiveC]) {
+            _sourceFileName = [_className stringByAppendingString:@".m"];
+        }
+        else if ([self isObjectiveCPlusPlus]) {
+            _sourceFileName = [_className stringByAppendingString:@".mm"];
+        }
+        else if ([self isCPlusPlus]) {
+            _sourceFileName = [_className stringByAppendingString:@".cpp"];
+        }
+        return _sourceFileName;
     }
-    else if ([self isObjectiveCPlusPlus])
-    {
-        sourceFileName = [_className stringByAppendingString:@".mm"];
-    }
-    else if ([self isCPlusPlus])
-    {
-        sourceFileName = [_className stringByAppendingString:@".cpp"];
-    }
-    return sourceFileName;
+    return _sourceFileName;
 }
-
 
 @end

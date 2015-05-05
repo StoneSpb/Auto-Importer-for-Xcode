@@ -9,8 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import "XCSourceFileDefinition.h"
 
 @implementation XCSourceFileDefinition
@@ -22,23 +20,21 @@
 /* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCSourceFileDefinition*)sourceDefinitionWithName:(NSString*)name text:(NSString*)text type:(XcodeSourceFileType)type
++ (instancetype)sourceDefinitionWithName:(NSString*)name text:(NSString*)text type:(XcodeSourceFileType)type
 {
-
-    return [[XCSourceFileDefinition alloc] initWithName:name text:text type:type];
+    return [[self alloc] initWithName:name text:text type:type];
 }
 
-+ (XCSourceFileDefinition*)sourceDefinitionWithName:(NSString*)name data:(NSData*)data type:(XcodeSourceFileType)type
++ (instancetype)sourceDefinitionWithName:(NSString*)name data:(NSData*)data type:(XcodeSourceFileType)type
 {
-
-    return [[XCSourceFileDefinition alloc] initWithName:name data:data type:type];
+    return [[self alloc] initWithName:name data:data type:type];
 }
 
 
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithName:(NSString*)name text:(NSString*)text type:(XcodeSourceFileType)type
+- (instancetype)initWithName:(NSString*)name text:(NSString*)text type:(XcodeSourceFileType)type
 {
     self = [super init];
     if (self)
@@ -50,7 +46,7 @@
     return self;
 }
 
-- (id)initWithName:(NSString*)name data:(NSData*)data type:(XcodeSourceFileType)type
+- (instancetype)initWithName:(NSString*)name data:(NSData*)data type:(XcodeSourceFileType)type
 {
     self = [super init];
     if (self)
@@ -60,7 +56,6 @@
         _type = type;
     }
     return self;
-
 }
 
 @end

@@ -1,5 +1,5 @@
 platform :osx, "10.9"
 
-pod 'XcodeEditor'
+pod 'XcodeEditor', :git => 'https://github.com/StoneSpb/XcodeEditor.git', :branch => 'master'
 
 link_with ['Auto-Importer', 'Auto-ImporterTests']

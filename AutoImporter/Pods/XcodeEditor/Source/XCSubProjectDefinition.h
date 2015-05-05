@@ -9,18 +9,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import <Foundation/Foundation.h>
+
 #import "XCAbstractDefinition.h"
 #import "XcodeSourceFileType.h"
 
 @class XCProject;
 
-
 @interface XCSubProjectDefinition : XCAbstractDefinition
 {
-
     NSString *_name;
     NSString *_path;
     XcodeSourceFileType _type;
@@ -31,7 +28,6 @@
     NSString *_relativePath;
 }
 
-
 @property (nonatomic, strong, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSString *path;
 @property (nonatomic, readonly) XcodeSourceFileType type;
@@ -40,12 +36,11 @@
 @property (nonatomic, strong, readonly) NSString *key;
 @property (nonatomic, strong, readwrite) NSString *fullProjectPath;
 
-+ (XCSubProjectDefinition *)withName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject;
-
-- (id)initWithName:(NSString *)name path:(NSString *)path parentProject:(XCProject *)parentProject;
++ (instancetype)subProjectDefinitionWithName:(NSString *)name
+                                        path:(NSString *)path
+                               parentProject:(XCProject *)parentProject;
 
 - (NSString *)projectFileName;
-
 - (NSString *)fullPathName;
 
 - (NSArray *)buildProductNames;
@@ -54,6 +49,6 @@
 
 - (NSString *)pathRelativeToProjectRoot;
 
-- (void)initFullProjectPath:(NSString *)fullProjectPath groupPath:(NSString *)groupPath;
+- (void)setFullProjectPath:(NSString *)fullProjectPath groupPath:(NSString *)groupPath;
 
 @end

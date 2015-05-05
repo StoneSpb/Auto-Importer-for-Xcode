@@ -9,11 +9,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import <Foundation/Foundation.h>
-#import "XCAbstractDefinition.h"
 
+#import "XCAbstractDefinition.h"
 
 @interface XCFrameworkDefinition : XCAbstractDefinition
 {
@@ -24,11 +22,8 @@
 @property(nonatomic, strong, readonly) NSString* filePath;
 @property(nonatomic, readonly) BOOL copyToDestination;
 
-+ (XCFrameworkDefinition*)frameworkDefinitionWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination;
-
-- (id)initWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination;
++ (instancetype)frameworkDefinitionWithFilePath:(NSString*)filePath copyToDestination:(BOOL)copyToDestination;
 
 - (NSString*)name;
-
 
 @end

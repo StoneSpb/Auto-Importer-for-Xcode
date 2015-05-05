@@ -9,34 +9,50 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#import "XCTarget.h"
+
 #import "XCGroup.h"
 #import "XCKeyBuilder.h"
-#import "XCTarget.h"
 #import "XCSourceFile.h"
 #import "XCProject.h"
 #import "XCProjectBuildConfig.h"
 
+@interface XCTarget ()
+
+@property(nonatomic, strong, readonly) NSMutableDictionary* targetObject;
+
+@end
+
 @implementation XCTarget
 
-/* ====================================================================================================================================== */
+/* ================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCTarget*)targetWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference
++ (instancetype)targetWithProject:(XCProject*)project
+                              key:(NSString*)key
+                             name:(NSString*)name
+                      productName:(NSString*)productName
+                 productReference:(NSString*)productReference
 {
-    return [[XCTarget alloc] initWithProject:project key:key name:name productName:productName productReference:productReference];
+    return [[self alloc] initWithProject:project
+                                     key:key
+                                    name:name
+                             productName:productName
+                        productReference:productReference];
 }
 
 
-/* ====================================================================================================================================== */
+/* ================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithProject:(XCProject*)project key:(NSString*)key name:(NSString*)name productName:(NSString*)productName
-    productReference:(NSString*)productReference
+- (instancetype)initWithProject:(XCProject*)project
+                            key:(NSString*)key
+                           name:(NSString*)name
+                    productName:(NSString*)productName
+               productReference:(NSString*)productReference
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         _project = project;
         _key = [key copy];
         _name = [name copy];
@@ -51,70 +67,61 @@
 
 - (NSArray*)resources
 {
-    if (_resources == nil)
-    {
+    if (_resources == nil) {
         _resources = [[NSMutableArray alloc] init];
-        for (NSString* buildPhaseKey in [[[_project objects] objectForKey:_key] objectForKey:@"buildPhases"])
-        {
-            NSDictionary* buildPhase = [[_project objects] objectForKey:buildPhaseKey];
-            if ([[buildPhase valueForKey:@"isa"] asMemberType] == PBXResourcesBuildPhaseType)
-            {
-                for (NSString* buildFileKey in [buildPhase objectForKey:@"files"])
-                {
+        NSDictionary* objects = _project.objects;
+        for (NSString* buildPhaseKey in objects[_key][@"buildPhases"]) {
+            NSDictionary* buildPhase = objects[buildPhaseKey];
+            if ([buildPhase[@"isa"] xce_hasResourcesBuildPhaseType]) {
+                for (NSString* buildFileKey in buildPhase[@"files"]) {
                     XCSourceFile* targetMember = [self buildFileWithKey:buildFileKey];
-                    if (targetMember)
-                    {
-                        [_resources addObject:[self buildFileWithKey:buildFileKey]];
+                    if (targetMember) {
+                        [_resources addObject:targetMember];
                     }
                 }
             }
         }
     }
 
-    return _resources;
+    return [_resources copy];
 }
 
 - (NSDictionary*)configurations
 {
-    if (_configurations == nil)
-    {
-        NSString* buildConfigurationRootSectionKey = [[[_project objects] objectForKey:_key] objectForKey:@"buildConfigurationList"];
-        NSDictionary* buildConfigurationDictionary = [[_project objects] objectForKey:buildConfigurationRootSectionKey];
+    if (_configurations == nil) {
+        NSDictionary* objects = _project.objects;
+        NSString* buildConfigurationRootSectionKey = objects[_key][@"buildConfigurationList"];
+        NSDictionary* buildConfigurationDictionary = objects[buildConfigurationRootSectionKey];
         _configurations =
-            [[XCProjectBuildConfig buildConfigurationsFromArray:[buildConfigurationDictionary objectForKey:@"buildConfigurations"]
+            [[XCProjectBuildConfig buildConfigurationsFromArray:buildConfigurationDictionary[@"buildConfigurations"]
                                                       inProject:_project] mutableCopy];
-        _defaultConfigurationName = [[buildConfigurationDictionary objectForKey:@"defaultConfigurationName"] copy];
+        _defaultConfigurationName = [buildConfigurationDictionary[@"defaultConfigurationName"] copy];
     }
 
-    return _configurations;
+    return [_configurations copy];
 }
 
 - (XCProjectBuildConfig *)defaultConfiguration
 {
-    return [[self configurations] objectForKey:_defaultConfigurationName];
+    return [self configurations][_defaultConfigurationName];
 }
 
 - (XCProjectBuildConfig *)configurationWithName:(NSString*)name
 {
-    return [[self configurations] objectForKey:name];
+    return [self configurations][name];
 }
 
 - (NSArray*)members
 {
-    if (_members == nil)
-    {
+    if (_members == nil) {
         _members = [[NSMutableArray alloc] init];
-        for (NSString* buildPhaseKey in [[[_project objects] objectForKey:_key] objectForKey:@"buildPhases"])
-        {
-            NSDictionary* buildPhase = [[_project objects] objectForKey:buildPhaseKey];
-            if ([[buildPhase valueForKey:@"isa"] asMemberType] == PBXSourcesBuildPhaseType ||
-                [[buildPhase valueForKey:@"isa"] asMemberType] == PBXFrameworksBuildPhaseType)
-            {
-                for (NSString* buildFileKey in [buildPhase objectForKey:@"files"])
-                {
+        NSDictionary* objects = _project.objects;
+        for (NSString* buildPhaseKey in objects[_key][@"buildPhases"]) {
+            NSDictionary* buildPhase = objects[buildPhaseKey];
+            if ([buildPhase[@"isa"] xce_hasSourcesOrFrameworksBuildPhaseType]) {
+                for (NSString* buildFileKey in buildPhase[@"files"]) {
                     XCSourceFile* targetMember = [self buildFileWithKey:buildFileKey];
-                    if (targetMember)
-                    {
+                    if (targetMember) {
                         [_members addObject:[_project fileWithKey:targetMember.key]];
                     }
                 }
@@ -127,21 +134,19 @@
 - (void)addMember:(XCSourceFile*)member
 {
     [member becomeBuildFile];
-    NSDictionary* target = [[_project objects] objectForKey:_key];
+    NSDictionary* objects = _project.objects;
+    NSDictionary* target = objects[_key];
 
-    for (NSString* buildPhaseKey in [target objectForKey:@"buildPhases"])
-    {
-        NSMutableDictionary* buildPhase = [[_project objects] objectForKey:buildPhaseKey];
-        if ([[buildPhase valueForKey:@"isa"] asMemberType] == [member buildPhase])
-        {
-
-            NSMutableArray* files = [buildPhase objectForKey:@"files"];
-            if (![files containsObject:[member buildFileKey]])
-            {
-                [files addObject:[member buildFileKey]];
+    for (NSString* buildPhaseKey in target[@"buildPhases"]) {
+        NSMutableDictionary* buildPhase = objects[buildPhaseKey];
+        if ([buildPhase[@"isa"] xce_asMemberType] == [member buildPhase]) {
+            NSMutableArray* files = buildPhase[@"files"];
+            NSString* buildFileKey = [member buildFileKey];
+            if (![files containsObject:buildFileKey]) {
+                [files addObject:buildFileKey];
             }
 
-            [buildPhase setObject:files forKey:@"files"];
+            buildPhase[@"files"] = files;
         }
     }
     [self flagMembersAsDirty];
@@ -149,100 +154,80 @@
 
 - (NSDictionary*)buildRefWithFileRefKey
 {
-    NSMutableDictionary* buildRefWithFileRefDict = [NSMutableDictionary dictionary];
-    NSDictionary* allObjects = [_project objects];
-    NSArray* keys = [allObjects allKeys];
+    NSMutableDictionary* buildRefWithFileRefDict = [[NSMutableDictionary alloc] init];
+    NSDictionary* objects = _project.objects;
 
-    for (NSString* key in keys)
-    {
-        NSDictionary* dictionaryInfo = [allObjects objectForKey:key];
-
-        NSString* type = [dictionaryInfo objectForKey:@"isa"];
-        if (type)
-        {
-            if ([type isEqualToString:@"PBXBuildFile"])
-            {
-                NSString* fileRef = [dictionaryInfo objectForKey:@"fileRef"];
-
-                if (fileRef)
-                {
-                    [buildRefWithFileRefDict setObject:key forKey:fileRef];
-                }
+    for (NSString* key in [objects keyEnumerator]) {
+        NSDictionary* obj = objects[key];
+        if ([obj[@"isa"] xce_hasBuildFileType]) {
+            NSString* fileRef = obj[@"fileRef"];
+            if (fileRef) {
+                buildRefWithFileRefDict[fileRef] = key;
             }
         }
     }
-    return buildRefWithFileRefDict;
+    return [buildRefWithFileRefDict copy];
 }
 
 - (void)removeMemberWithKey:(NSString*)key
 {
-
     NSDictionary* buildRefWithFileRef = [self buildRefWithFileRefKey];
-    NSDictionary* target = [[_project objects] objectForKey:_key];
-    NSString* buildRef = [buildRefWithFileRef objectForKey:key];
-
-    if (!buildRef)
-    {
+    NSDictionary* objects = _project.objects;
+    NSDictionary* target = objects[_key];
+    NSString* buildRef = buildRefWithFileRef[key];
+    if (!buildRef) {
         return;
     }
 
-    for (NSString* buildPhaseKey in [target objectForKey:@"buildPhases"])
-    {
-        NSMutableDictionary* buildPhase = [[_project objects] objectForKey:buildPhaseKey];
-        NSMutableArray* files = [buildPhase objectForKey:@"files"];
+    for (NSString* buildPhaseKey in target[@"buildPhases"]) {
+        NSMutableDictionary* buildPhase = objects[buildPhaseKey];
+        NSMutableArray* files = buildPhase[@"files"];
 
         [files removeObjectIdenticalTo:buildRef];
-        [buildPhase setObject:files forKey:@"files"];
+        buildPhase[@"files"] = files;
     }
     [self flagMembersAsDirty];
 }
 
 - (void)removeMembersWithKeys:(NSArray*)keys
 {
-    for (NSString* key in keys)
-    {
+    for (NSString* key in keys) {
         [self removeMemberWithKey:key];
     }
 }
 
 - (void)addDependency:(NSString*)key
 {
-    NSDictionary* targetObj = [[_project objects] objectForKey:_key];
-    NSMutableArray* dependencies = [targetObj valueForKey:@"dependencies"];
+    NSMutableArray* dependencies = self.targetObject[@"dependencies"];
     // add only if not already there
     BOOL found = NO;
-    for (NSString* dependency in dependencies)
-    {
-        if ([dependency isEqualToString:key])
-        {
+    for (NSString* dependency in dependencies) {
+        if ([dependency isEqualToString:key]) {
             found = YES;
             break;
         }
     }
-    if (!found)
-    {
+    if (!found) {
         [dependencies addObject:key];
     }
 }
 
 - (instancetype)duplicateWithTargetName:(NSString*)targetName productName:(NSString*)productName
 {
-
-    NSDictionary* targetObj = _project.objects[_key];
-    NSMutableDictionary* dupTargetObj = [targetObj mutableCopy];
+    NSMutableDictionary* dupTargetObj = [self.targetObject mutableCopy];
 
     dupTargetObj[@"name"] = targetName;
     dupTargetObj[@"productName"] = productName;
 
     NSString* buildConfigurationListKey = dupTargetObj[@"buildConfigurationList"];
 
-    void(^visitor)(NSMutableDictionary*) = ^(NSMutableDictionary* buildConfiguration)
-    {
+    void(^visitor)(NSMutableDictionary*) = ^(NSMutableDictionary* buildConfiguration) {
         buildConfiguration[@"buildSettings"][@"PRODUCT_NAME"] = productName;
     };
 
     dupTargetObj[@"buildConfigurationList"] =
-        [XCProjectBuildConfig duplicatedBuildConfigurationListWithKey:buildConfigurationListKey inProject:_project
+        [XCProjectBuildConfig duplicatedBuildConfigurationListWithKey:buildConfigurationListKey
+                                                            inProject:_project
                                         withBuildConfigurationVisitor:visitor];
 
     [self duplicateProductReferenceForTargetObject:dupTargetObj withProductName:productName];
@@ -255,28 +240,27 @@
 
     [_project dropCache];
 
-    return [[XCTarget alloc] initWithProject:_project key:dupTargetObjKey name:targetName productName:productName
-        productReference:dupTargetObj[@"productReference"]];
+    return [[XCTarget alloc] initWithProject:_project
+                                         key:dupTargetObjKey
+                                        name:targetName
+                                 productName:productName
+                            productReference:dupTargetObj[@"productReference"]];
 }
 
-/* ====================================================================================================================================== */
+/* ================================================================================================================== */
 #pragma mark - Overridden Methods
 
 - (void)setName:(NSString*)name
 {
     _name = name;
-    NSDictionary* dictionary = [_project.objects objectForKey:_key];
-    [dictionary setValue:_name forKey:@"name"];
+    self.targetObject[@"name"] = _name;
 }
 
 - (void)setProductName:(NSString*)productName
 {
     _productName = productName;
-    NSDictionary* dictionary = [_project.objects objectForKey:_key];
-    [dictionary setValue:_productName forKey:@"productName"];
+    self.targetObject[@"productName"] = _productName;
 }
-
-
 
 /* ====================================================================================================================================== */
 #pragma mark - Utility Methods
@@ -289,14 +273,16 @@
 /* ====================================================================================================================================== */
 #pragma mark - Private Methods
 
+- (NSMutableDictionary*)targetObject {
+    return _project.objects[_key];
+}
+
 - (XCSourceFile*)buildFileWithKey:(NSString*)theKey
 {
-    NSDictionary* obj = [[_project objects] valueForKey:theKey];
-    if (obj)
-    {
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXBuildFileType)
-        {
-            return [_project fileWithKey:[obj valueForKey:@"fileRef"]];
+    NSDictionary* obj = _project.objects[theKey];
+    if (obj) {
+        if ([obj[@"isa"] xce_hasBuildFileType]) {
+            return [_project fileWithKey:obj[@"fileRef"]];
         }
     }
     return nil;
@@ -307,11 +293,12 @@
     _members = nil;
 }
 
-- (void)duplicateProductReferenceForTargetObject:(NSMutableDictionary*)dupTargetObj withProductName:(NSString*)productName
+- (void)duplicateProductReferenceForTargetObject:(NSMutableDictionary*)dupTargetObj
+                                 withProductName:(NSString*)productName
 {
-
+    NSMutableDictionary* objects = _project.objects;
     NSString* productReferenceKey = dupTargetObj[@"productReference"];
-    NSMutableDictionary* dupProductReference = [_project.objects[productReferenceKey] mutableCopy];
+    NSMutableDictionary* dupProductReference = [objects[productReferenceKey] mutableCopy];
 
     NSString* path = dupProductReference[@"path"];
     NSString* dupPath = [path stringByDeletingLastPathComponent];
@@ -321,35 +308,31 @@
 
     NSString* dupProductReferenceKey = [[XCKeyBuilder createUnique] build];
 
-    _project.objects[dupProductReferenceKey] = dupProductReference;
+    objects[dupProductReferenceKey] = dupProductReference;
     dupTargetObj[@"productReference"] = dupProductReferenceKey;
 }
 
 - (void)duplicateBuildPhasesForTargetObject:(NSMutableDictionary*)dupTargetObj
 {
-
     NSMutableArray* buildPhases = [NSMutableArray array];
+    NSMutableDictionary* objects = _project.objects;
 
-    for (NSString* buildPhaseKey in dupTargetObj[@"buildPhases"])
-    {
-
-        NSMutableDictionary* dupBuildPhase = [_project.objects[buildPhaseKey] mutableCopy];
+    for (NSString* buildPhaseKey in dupTargetObj[@"buildPhases"]) {
+        NSMutableDictionary* dupBuildPhase = [objects[buildPhaseKey] mutableCopy];
         NSMutableArray* dupFiles = [NSMutableArray array];
 
-        for (NSString* fileKey in dupBuildPhase[@"files"])
-        {
-
-            NSMutableDictionary* dupFile = [_project.objects[fileKey] mutableCopy];
+        for (NSString* fileKey in dupBuildPhase[@"files"]) {
+            NSMutableDictionary* dupFile = [objects[fileKey] mutableCopy];
             NSString* dupFileKey = [[XCKeyBuilder createUnique] build];
 
-            _project.objects[dupFileKey] = dupFile;
+            objects[dupFileKey] = dupFile;
             [dupFiles addObject:dupFileKey];
         }
 
         dupBuildPhase[@"files"] = dupFiles;
 
         NSString* dupBuildPhaseKey = [[XCKeyBuilder createUnique] build];
-        _project.objects[dupBuildPhaseKey] = dupBuildPhase;
+        objects[dupBuildPhaseKey] = dupBuildPhase;
         [buildPhases addObject:dupBuildPhaseKey];
     }
 
@@ -358,33 +341,33 @@
 
 - (void)addReferenceToProductsGroupForTargetObject:(NSMutableDictionary*)dupTargetObj
 {
-
     XCGroup* mainGroup = nil;
     NSPredicate* productsPredicate = [NSPredicate predicateWithFormat:@"displayName == 'Products'"];
     NSArray* filteredGroups = [_project.groups filteredArrayUsingPredicate:productsPredicate];
 
-    if (filteredGroups.count > 0)
-    {
+    if (filteredGroups.count > 0) {
         mainGroup = filteredGroups[0];
-        NSMutableArray* children = [_project.objects[mainGroup.key][@"children"] mutableCopy];
+        NSMutableDictionary* mainGroupDictionary = _project.objects[mainGroup.key];
+        NSMutableArray* children = [mainGroupDictionary[@"children"] mutableCopy];
         [children addObject:dupTargetObj[@"productReference"]];
-        _project.objects[mainGroup.key][@"children"] = children;
+        mainGroupDictionary[@"children"] = children;
     }
 }
 
 - (NSString*)addTargetToRootObjectTargets:(NSMutableDictionary*)dupTargetObj
 {
     NSString* dupTargetObjKey = [[XCKeyBuilder createUnique] build];
+    NSMutableDictionary* objects = _project.objects;
 
-    _project.objects[dupTargetObjKey] = dupTargetObj;
+    objects[dupTargetObjKey] = dupTargetObj;
 
     NSString* rootObjKey = _project.dataStore[@"rootObject"];
-    NSMutableDictionary* rootObj = [_project.objects[rootObjKey] mutableCopy];
+    NSMutableDictionary* rootObj = [objects[rootObjKey] mutableCopy];
     NSMutableArray* rootObjTargets = [rootObj[@"targets"] mutableCopy];
     [rootObjTargets addObject:dupTargetObjKey];
 
     rootObj[@"targets"] = rootObjTargets;
-    _project.objects[rootObjKey] = rootObj;
+    objects[rootObjKey] = rootObj;
 
     return dupTargetObjKey;
 }

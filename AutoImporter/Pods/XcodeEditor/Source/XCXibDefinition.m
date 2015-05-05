@@ -9,7 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import "XCXibDefinition.h"
 
 @implementation XCXibDefinition
@@ -17,30 +16,30 @@
 @synthesize name = _name;
 @synthesize content = _content;
 
+
 /* ====================================================================================================================================== */
 #pragma mark - Class Methods
 
-+ (XCXibDefinition*)xibDefinitionWithName:(NSString*)name
++ (instancetype)xibDefinitionWithName:(NSString*)name
 {
-    return [[XCXibDefinition alloc] initWithName:name];
+    return [[self alloc] initWithName:name];
 }
 
-+ (XCXibDefinition*)xibDefinitionWithName:(NSString*)name content:(NSString*)content
++ (instancetype)xibDefinitionWithName:(NSString*)name content:(NSString*)content
 {
-    return [[XCXibDefinition alloc] initWithName:name content:content];
+    return [[self alloc] initWithName:name content:content];
 }
 
 
 /* ====================================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithName:(NSString*)name
+- (instancetype)initWithName:(NSString*)name
 {
     return [self initWithName:name content:nil];
 }
 
-
-- (id)initWithName:(NSString*)name content:(NSString*)content
+- (instancetype)initWithName:(NSString*)name content:(NSString*)content
 {
     self = [super init];
     if (self)

@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #import <Foundation/Foundation.h>
+
 #import "XcodeMemberType.h"
 #import "XcodeSourceFileType.h"
 
@@ -29,6 +30,7 @@ NSString* const XCProjectNotFoundException;
     XCFileOperationQueue* _fileOperationQueue;
 
     NSString* _filePath;
+    NSString* _dataStorePath;
     NSMutableDictionary* _dataStore;
     NSMutableArray* _targets;
 
@@ -45,13 +47,11 @@ NSString* const XCProjectNotFoundException;
 #pragma mark - Initialization & Destruction
 //-------------------------------------------------------------------------------------------
 
-
-+ (XCProject*)projectWithFilePath:(NSString*)filePath;
-
 /**
-* Creates a new project editor instance with the specified Project.xcodeproj file.
-*/
-- (id)initWithFilePath:(NSString*)filePath;
+ * Creates a new project editor instance with the specified Project.xcodeproj file.
+ */
++ (instancetype)projectWithFilePath:(NSString*)filePath;
+
 
 //-------------------------------------------------------------------------------------------
 #pragma mark Files
@@ -151,7 +151,6 @@ NSString* const XCProjectNotFoundException;
 * Returns the target with the specified name, or nil. 
 */
 - (NSDictionary*)configurations;
-
 - (NSDictionary*)configurationWithName:(NSString*)name;
 
 - (XCProjectBuildConfig *)defaultConfiguration;
@@ -168,9 +167,9 @@ NSString* const XCProjectNotFoundException;
 /**
 * Raw project data.
 */
-- (NSMutableDictionary*)objects;
+@property(nonatomic, strong, readonly) NSMutableDictionary* objects;
 
-- (NSMutableDictionary*)dataStore;
+@property(nonatomic, strong, readonly) NSMutableDictionary* dataStore;
 
 - (void)dropCache;
 

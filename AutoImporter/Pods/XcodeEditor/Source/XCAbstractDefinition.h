@@ -9,12 +9,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
 
 typedef enum
 {
-
     /**
     * Creates the reference in the project and writes the contents to disk. If a file already exists at the specified
     * location, its contents will be updated.
@@ -34,6 +32,7 @@ typedef enum
         XCFileOperationTypeReferenceOnly
 } XCFileOperationType;
 
+
 /**
 * Holds properties to all types of resource that can be added to an Xcode project.
 */
@@ -43,6 +42,5 @@ typedef enum
 }
 
 @property(nonatomic) XCFileOperationType fileOperationType;
-
 
 @end

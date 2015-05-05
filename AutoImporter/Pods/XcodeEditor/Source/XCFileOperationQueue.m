@@ -9,8 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 #import "XCFileOperationQueue.h"
 
 @interface XCFileOperationQueue ()
@@ -18,11 +16,8 @@
 - (NSString*)destinationPathFor:(NSString*)fileName inProjectDirectory:(NSString*)directory;
 
 - (void)performFileWrites;
-
 - (void)performCopyFrameworks;
-
 - (void)performFileDeletions;
-
 - (void)performCreateDirectories;
 
 @end
@@ -30,10 +25,11 @@
 
 @implementation XCFileOperationQueue
 
-/* ====================================================================================================================================== */
+
+/* ================================================================================================================== */
 #pragma mark - Initialization & Destruction
 
-- (id)initWithBaseDirectory:(NSString*)baseDirectory
+- (instancetype)initWithBaseDirectory:(NSString*)baseDirectory
 {
     self = [super init];
     if (self)
@@ -47,7 +43,8 @@
     return self;
 }
 
-/* ====================================================================================================================================== */
+
+/* ================================================================================================================== */
 #pragma mark - Interface Methods
 
 - (BOOL)fileWithName:(NSString*)name existsInProjectDirectory:(NSString*)directory
@@ -55,7 +52,6 @@
     NSString* filePath = [self destinationPathFor:name inProjectDirectory:directory];
     return [[NSFileManager defaultManager] fileExistsAtPath:filePath];
 }
-
 
 - (void)queueTextFile:(NSString*)fileName inDirectory:(NSString*)directory withContents:(NSString*)contents
 {
@@ -68,13 +64,12 @@
     [_filesToWrite setObject:contents forKey:[self destinationPathFor:fileName inProjectDirectory:directory]];
 }
 
-
 - (void)queueFrameworkWithFilePath:(NSString*)filePath inDirectory:(NSString*)directory
 {
-
+    NSString* fileName = [filePath lastPathComponent];
     NSURL* sourceUrl = [NSURL fileURLWithPath:filePath isDirectory:YES];
     NSString* destinationPath =
-        [[_baseDirectory stringByAppendingPathComponent:directory] stringByAppendingPathComponent:[filePath lastPathComponent]];
+        [[_baseDirectory stringByAppendingPathComponent:directory] stringByAppendingPathComponent:fileName];
     NSURL* destinationUrl = [NSURL fileURLWithPath:destinationPath isDirectory:YES];
     [_frameworksToCopy setObject:sourceUrl forKey:destinationUrl];
 }
@@ -99,7 +94,7 @@
 }
 
 
-/* ====================================================================================================================================== */
+/* ================================================================================================================== */
 #pragma mark - Private Methods
 
 - (NSString*)destinationPathFor:(NSString*)fileName inProjectDirectory:(NSString*)directory
@@ -114,7 +109,8 @@
         NSError* error = nil;
         if (![data writeToFile:filePath options:NSDataWritingAtomic error:&error])
         {
-            [NSException raise:NSInternalInconsistencyException format:@"Error writing file at filePath: %@, error: %@", filePath, error];
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"Error writing file at filePath: %@, error: %@", filePath, error];
         }
     }];
     [_filesToWrite removeAllObjects];
@@ -124,7 +120,6 @@
 {
     [_frameworksToCopy enumerateKeysAndObjectsUsingBlock:^(NSURL* destinationUrl, NSURL* frameworkPath, BOOL* stop)
     {
-
         NSFileManager* fileManager = [NSFileManager defaultManager];
 
         if ([fileManager fileExistsAtPath:[destinationUrl path]])
@@ -134,8 +129,8 @@
         NSError* error = nil;
         if (![fileManager copyItemAtURL:frameworkPath toURL:destinationUrl error:&error])
         {
-            [NSException raise:NSInternalInconsistencyException format:@"Error writing file at filePath: %@",
-                                                                       [frameworkPath absoluteString]];
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"Error writing file at filePath: %@", [frameworkPath absoluteString]];
         }
     }];
     [_frameworksToCopy removeAllObjects];
@@ -151,7 +146,8 @@
         if (![[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error])
         {
             NSLog(@"failed to remove item at path; error == %@", error);
-            [NSException raise:NSInternalInconsistencyException format:@"Error deleting file at filePath: %@", filePath];
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"Error deleting file at filePath: %@", filePath];
         }
         else
         {
@@ -175,6 +171,5 @@
         }
     }
 }
-
 
 @end

@@ -9,18 +9,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
-#import "XCSourceFile.h"
-#import "XCTarget.h"
-#import "Utils/XCKeyBuilder.h"
 #import "XCProject+SubProject.h"
-#import "XCSubProjectDefinition.h"
-#import <Foundation/Foundation.h>
 
+#import "Utils/XCKeyBuilder.h"
+#import "XCSourceFile.h"
+#import "XCSubProjectDefinition.h"
+#import "XCTarget.h"
 
 @implementation XCProject (SubProject)
-
 
 #pragma mark sub-project related public methods
 
@@ -30,9 +26,9 @@
 - (NSString *)referenceProxyKeyForName:(NSString *)name
 {
     __block NSString *result = nil;
-    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXReferenceProxyType) {
-            NSString *candidate = [obj valueForKey:@"path"];
+    [self.objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
+        if ([obj[@"isa"] xce_hasReferenceProxyType]) {
+            NSString *candidate = obj[@"path"];
             if ([candidate isEqualToString:name]) {
                 result = key;
                 *stop = YES;
@@ -47,18 +43,23 @@
 - (NSArray *)buildProductsForTargets:(NSString *)xcodeprojKey
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
-    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXReferenceProxyType) {
+    NSMutableDictionary *objects = self.objects;
+    [objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
+        if ([obj[@"isa"] xce_hasReferenceProxyType]) {
             // make sure it belongs to the xcodeproj we're adding
-            NSString *remoteRef = [obj valueForKey:@"remoteRef"];
-            NSDictionary *containerProxy = [[self objects] valueForKey:remoteRef];
-            NSString *containerPortal = [containerProxy valueForKey:@"containerPortal"];
+            NSString *remoteRef = obj[@"remoteRef"];
+            NSDictionary *containerProxy = objects[remoteRef];
+            NSString *containerPortal = containerProxy[@"containerPortal"];
             if ([containerPortal isEqualToString:xcodeprojKey]) {
-                XcodeSourceFileType type = XCSourceFileTypeFromStringRepresentation([obj valueForKey:@"fileType"]);
-                NSString *path = (NSString *)[obj valueForKey:@"path"];
+                XcodeSourceFileType type = XCSourceFileTypeFromStringRepresentation(obj[@"fileType"]);
+                NSString *path = (NSString *)obj[@"path"];
                 if (type != Bundle || [[path pathExtension] isEqualToString:@"bundle"]) {
-                    [results addObject:[XCSourceFile sourceFileWithProject:self key:key type:type name:path
-                        sourceTree:nil path:nil]];
+                    [results addObject:[XCSourceFile sourceFileWithProject:self
+                                                                       key:key
+                                                                      type:type
+                                                                      name:path
+                                                                sourceTree:nil
+                                                                      path:nil]];
                 }
             }
         }
@@ -90,32 +91,34 @@
     singleton:(BOOL)singleton required:(BOOL)required
 {
     __block NSMutableArray *returnValue = [[NSMutableArray alloc] init];
-    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
-        if ([[obj valueForKey:@"isa"] asMemberType] == memberType) {
+    [self.objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
+        if ([obj[@"isa"] xce_asMemberType] == memberType) {
             if (memberType == PBXContainerItemProxyType) {
-                if ([[obj valueForKey:@"containerPortal"] isEqualToString:identifier]) {
+                if ([obj[@"containerPortal"] isEqualToString:identifier]) {
                     [returnValue addObject:key];
                 }
             }
             else if (memberType == PBXReferenceProxyType) {
-                if ([[obj valueForKey:@"remoteRef"] isEqualToString:identifier]) {
+                if ([obj[@"remoteRef"] isEqualToString:identifier]) {
                     [returnValue addObject:key];
                 }
             }
-            else if (memberType == PBXTargetDependencyType || memberType == PBXGroupType || memberType == PBXVariantGroupType) {
-                if ([[obj valueForKey:@"name"] isEqualToString:identifier]) {
+            else if (memberType == PBXTargetDependencyType ||
+                     memberType == PBXGroupType ||
+                     memberType == PBXVariantGroupType) {
+                if ([obj[@"name"] isEqualToString:identifier]) {
                     [returnValue addObject:key];
                 }
             }
             else if (memberType == PBXNativeTargetType) {
-                for (NSString *dependencyKey in [obj valueForKey:@"dependencies"]) {
+                for (NSString *dependencyKey in obj[@"dependencies"]) {
                     if ([dependencyKey isEqualToString:identifier]) {
                         [returnValue addObject:key];
                     }
                 }
             }
             else if (memberType == PBXBuildFileType) {
-                if ([[obj valueForKey:@"fileRef"] isEqualToString:identifier]) {
+                if ([obj[@"fileRef"] isEqualToString:identifier]) {
                     [returnValue addObject:key];
                 }
             }
@@ -123,28 +126,30 @@
                 [returnValue addObject:key];
             }
             else if (memberType == PBXFileReferenceType) {
-                if ([[obj valueForKey:@"path"] isEqualToString:identifier]) {
+                if ([obj[@"path"] isEqualToString:identifier]) {
                     [returnValue addObject:key];
                 }
             }
-            else if (memberType == PBXFrameworksBuildPhaseType || memberType == PBXResourcesBuildPhaseType) {
+            else if (memberType == PBXFrameworksBuildPhaseType ||
+                     memberType == PBXResourcesBuildPhaseType) {
                 [returnValue addObject:key];
             }
             else {
-                [NSException raise:NSInvalidArgumentException format:@"Unrecognized member type %@",
-                                                                     [NSString stringFromMemberType:memberType]];
+                [NSException raise:NSInvalidArgumentException
+                            format:@"Unrecognized member type %@", [NSString xce_stringFromMemberType:memberType]];
             }
         }
     }];
     if (singleton && [returnValue count] > 1) {
         [NSException raise:NSGenericException
-            format:@"Searched for one instance of member type %@ with value %@, but found %ld",
-                   [NSString stringFromMemberType:memberType], identifier, (unsigned long) [returnValue count]];
+                    format:@"Searched for one instance of member type %@ with value %@, but found %ld",
+                           [NSString xce_stringFromMemberType:memberType], identifier,
+                           (unsigned long) [returnValue count]];
     }
     if (required && [returnValue count] == 0) {
         [NSException raise:NSGenericException
-            format:@"Searched for instances of member type %@ with value %@, but did not find any",
-                   [NSString stringFromMemberType:memberType], identifier];
+                    format:@"Searched for instances of member type %@ with value %@, but did not find any",
+                           [NSString xce_stringFromMemberType:memberType], identifier];
     }
     return returnValue;
 }
@@ -153,10 +158,12 @@
 - (NSMutableDictionary *)PBXProjectDict
 {
     NSString *PBXProjectKey;
-    NSArray *PBXProjectKeys = [self keysForProjectObjectsOfType:PBXProjectType withIdentifier:nil singleton:YES
-        required:YES];
+    NSArray *PBXProjectKeys = [self keysForProjectObjectsOfType:PBXProjectType
+                                                 withIdentifier:nil
+                                                      singleton:YES
+                                                       required:YES];
     PBXProjectKey = [PBXProjectKeys objectAtIndex:0];
-    NSMutableDictionary *PBXProjectDict = [[self objects] valueForKey:PBXProjectKey];
+    NSMutableDictionary *PBXProjectDict = self.objects[PBXProjectKey];
     return PBXProjectDict;
 }
 
@@ -164,10 +171,10 @@
 - (NSString *)containerItemProxyKeyForName:(NSString *)name proxyType:(NSString *)proxyType
 {
     NSMutableArray *results = [[NSMutableArray alloc] init];
-    [[self objects] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
-        if ([[obj valueForKey:@"isa"] asMemberType] == PBXContainerItemProxyType) {
-            NSString *remoteInfo = [obj valueForKey:@"remoteInfo"];
-            NSString *proxy = [obj valueForKey:@"proxyType"];
+    [self.objects enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *obj, BOOL *stop) {
+        if ([obj[@"isa"] xce_hasContainerItemProxyType]) {
+            NSString *remoteInfo = obj[@"remoteInfo"];
+            NSString *proxy = obj[@"proxyType"];
             if ([remoteInfo isEqualToString:name] && [proxy isEqualToString:proxyType]) {
                 [results addObject:key];
             }
@@ -191,8 +198,10 @@
 
 
 // makes a PBXContainerItemProxy object for a given PBXFileReference object.  Replaces pre-existing objects.
-- (NSString *)makeContainerItemProxyForName:(NSString *)name fileRef:(NSString *)fileRef proxyType:(NSString *)proxyType
-    uniqueName:(NSString *)uniqueName
+- (NSString *)makeContainerItemProxyForName:(NSString *)name
+                                    fileRef:(NSString *)fileRef
+                                  proxyType:(NSString *)proxyType
+                                 uniqueName:(NSString *)uniqueName
 {
     NSString *keyName;
     if (uniqueName != nil) {
@@ -201,14 +210,17 @@
     else {
         keyName = name;
     }
+
+    NSMutableDictionary *objects = self.objects;
+
     // remove old if it exists
     NSString *existingProxyKey = [self containerItemProxyKeyForName:keyName proxyType:proxyType];
     if (existingProxyKey) {
-        [[self objects] removeObjectForKey:existingProxyKey];
+        [objects removeObjectForKey:existingProxyKey];
     }
     // make new one
     NSMutableDictionary *proxy = [NSMutableDictionary dictionary];
-    proxy[@"isa"] = [NSString stringFromMemberType:PBXContainerItemProxyType];
+    proxy[@"isa"] = [NSString xce_stringFromMemberType:PBXContainerItemProxyType];
     proxy[@"containerPortal"] = fileRef;
     proxy[@"proxyType"] = proxyType;
     // give it a random key - the keys xcode puts here are not in the project file anywhere else
@@ -217,7 +229,7 @@
     proxy[@"remoteInfo"] = name;
     // add to project. use proxyType to generate key, so that multiple keys for the same name don't overwrite each other
     key = [[XCKeyBuilder forItemNamed:[NSString stringWithFormat:@"%@-containerProxy-%@", keyName, proxyType]] build];
-    [self objects][key] = proxy;
+    objects[key] = proxy;
 
     return key;
 }
@@ -226,25 +238,28 @@
 - (void)makeReferenceProxyForContainerItemProxy:(NSString *)containerItemProxyKey
     buildProductReference:(NSDictionary *)buildProductReference
 {
-    NSString *path = [buildProductReference valueForKey:@"path"];
+    NSMutableDictionary *objects = self.objects;
+    NSString *path = buildProductReference[@"path"];
     // remove old if any exists
-    NSArray *existingProxyKeys = [self keysForProjectObjectsOfType:PBXReferenceProxyType withIdentifier:path
-        singleton:NO required:NO];
+    NSArray *existingProxyKeys = [self keysForProjectObjectsOfType:PBXReferenceProxyType
+                                                    withIdentifier:path
+                                                         singleton:NO
+                                                          required:NO];
     if ([existingProxyKeys count] > 0) {
         for (NSString *existingProxyKey in existingProxyKeys) {
-            [[self objects] removeObjectForKey:existingProxyKey];
+            [objects removeObjectForKey:existingProxyKey];
         }
     }
     // make new one
     NSMutableDictionary *proxy = [NSMutableDictionary dictionary];
-    proxy[@"isa"] = [NSString stringFromMemberType:PBXReferenceProxyType];
+    proxy[@"isa"] = [NSString xce_stringFromMemberType:PBXReferenceProxyType];
     proxy[@"fileType"] = [buildProductReference valueForKey:@"explicitFileType"];
     proxy[@"path"] = path;
     proxy[@"remoteRef"] = containerItemProxyKey;
     proxy[@"sourceTree"] = [buildProductReference valueForKey:@"sourceTree"];
     // add to project
     NSString *key = [[XCKeyBuilder forItemNamed:[NSString stringWithFormat:@"%@-referenceProxy", path]] build];
-    [self objects][key] = proxy;
+    objects[key] = proxy;
 }
 
 // makes a PBXTargetDependency object for a given PBXContainerItemProxy.  Replaces pre-existing objects.
@@ -258,22 +273,25 @@
     else {
         keyName = name;
     }
+
+    NSMutableDictionary *objects = self.objects;
+
     // remove old if it exists
     NSArray *existingDependencyKeys = [self keysForProjectObjectsOfType:PBXTargetDependencyType withIdentifier:keyName
         singleton:NO required:NO];
     if ([existingDependencyKeys count] > 0) {
         for (NSString *existingDependencyKey in existingDependencyKeys) {
-            [[self objects] removeObjectForKey:existingDependencyKey];
+            [objects removeObjectForKey:existingDependencyKey];
         }
     }
     // make new one
     NSMutableDictionary *targetDependency = [NSMutableDictionary dictionary];
-    targetDependency[@"isa"] = [NSString stringFromMemberType:PBXTargetDependencyType];
+    targetDependency[@"isa"] = [NSString xce_stringFromMemberType:PBXTargetDependencyType];
     targetDependency[@"name"] = name;
     targetDependency[@"targetProxy"] = containerItemProxyKey;
-    NSString *targetDependencyKey = [[XCKeyBuilder forItemNamed:[NSString stringWithFormat:@"%@-targetProxy", keyName]]
-        build];
-    [self objects][targetDependencyKey] = targetDependency;
+    NSString *targetDependencyKey =
+        [[XCKeyBuilder forItemNamed:[NSString stringWithFormat:@"%@-targetProxy", keyName]] build];
+    objects[targetDependencyKey] = targetDependency;
     return targetDependencyKey;
 }
 
@@ -281,32 +299,44 @@
 - (void)addProxies:(XCSubProjectDefinition *)xcodeproj
 {
     NSString *fileRef = [[self fileWithName:[xcodeproj pathRelativeToProjectRoot]] key];
-    for (NSDictionary *target in [xcodeproj.subProject targets]) {
-        NSString *containerItemProxyKey = [self makeContainerItemProxyForName:[target valueForKey:@"name"]
-            fileRef:fileRef proxyType:@"2" uniqueName:nil];
-        NSString *productFileReferenceKey = [target valueForKey:@"productReference"];
-        NSDictionary *productFileReference = [[xcodeproj.subProject objects] valueForKey:productFileReferenceKey];
+    XCProject *subProject = xcodeproj.subProject;
+    NSDictionary *subProjectObjects = subProject.objects;
+
+    for (XCTarget *target in [subProject targets]) {
+        NSString *containerItemProxyKey = [self makeContainerItemProxyForName:target.name
+                                                                      fileRef:fileRef
+                                                                    proxyType:@"2"
+                                                                   uniqueName:nil];
+        NSString *productFileReferenceKey = target.productReference;
+        NSDictionary *productFileReference = subProjectObjects[productFileReferenceKey];
         [self makeReferenceProxyForContainerItemProxy:containerItemProxyKey buildProductReference:productFileReference];
     }
 }
 
-// remove the PBXContainerItemProxy and PBXReferenceProxy objects for the given object key (which is the PBXFilereference
-// for the xcodeproj file)
+// remove the PBXContainerItemProxy and PBXReferenceProxy objects for the given object key
+// (which is the PBXFilereference for the xcodeproj file)
 - (void)removeProxies:(NSString *)xcodeprojKey
 {
-    NSMutableArray *keysToDelete = [NSMutableArray array];
+    NSMutableArray *keysToDelete = [[NSMutableArray alloc] init];
     // use the xcodeproj's PBXFileReference key to get the PBXContainerItemProxy keys
     NSArray *containerItemProxyKeys = [self keysForProjectObjectsOfType:PBXContainerItemProxyType
-        withIdentifier:xcodeprojKey singleton:NO required:YES];
+                                                         withIdentifier:xcodeprojKey
+                                                              singleton:NO
+                                                               required:YES];
+
     // use the PBXContainerItemProxy keys to get the PBXReferenceProxy keys
     for (NSString *key in containerItemProxyKeys) {
-        [keysToDelete addObjectsFromArray:[self keysForProjectObjectsOfType:PBXReferenceProxyType withIdentifier:key
-            singleton:NO required:NO]];
+        [keysToDelete addObjectsFromArray:[self keysForProjectObjectsOfType:PBXReferenceProxyType
+                                                             withIdentifier:key
+                                                                  singleton:NO
+                                                                   required:NO]];
         [keysToDelete addObject:key];
     }
+
     // remove all objects located above
+    NSMutableDictionary *objects = self.objects;
     [keysToDelete enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [[self objects] removeObjectForKey:obj];
+        [objects removeObjectForKey:obj];
     }];
 }
 
@@ -352,26 +382,36 @@
 // because we support adding a project file without adding it to any targets.
 - (void)removeTargetDependencies:(NSString *)name
 {
+    NSMutableDictionary *objects = self.objects;
+
     // get the key for the PBXTargetDependency with name = xcodeproj file name (without extension)
-    NSArray *targetDependencyKeys = [self keysForProjectObjectsOfType:PBXTargetDependencyType withIdentifier:name
-        singleton:NO required:NO];
+    NSArray *targetDependencyKeys = [self keysForProjectObjectsOfType:PBXTargetDependencyType
+                                                       withIdentifier:name
+                                                            singleton:NO
+                                                             required:NO];
+
     // we might not find any if the project wasn't added to targets in the first place
     if ([targetDependencyKeys count] == 0) {
         return;
     }
     NSString *targetDependencyKey = targetDependencyKeys[0];
+
     // use the key for the PBXTargetDependency to get the key for any PBXNativeTargets that depend on it
-    NSArray *nativeTargetKeys = [self keysForProjectObjectsOfType:PBXNativeTargetType withIdentifier:targetDependencyKey
-        singleton:NO required:NO];
-    // remove the key for the PBXTargetDependency from the PBXNativeTarget's dependencies arrays (leave in place even if empty)
+    NSArray *nativeTargetKeys = [self keysForProjectObjectsOfType:PBXNativeTargetType
+                                                   withIdentifier:targetDependencyKey
+                                                        singleton:NO
+                                                         required:NO];
+
+    // remove the key for the PBXTargetDependency from the PBXNativeTarget's dependencies arrays
+    // (leave in place even if empty)
     for (NSString *nativeTargetKey in nativeTargetKeys) {
-        NSMutableDictionary *nativeTarget = [self objects][nativeTargetKey];
+        NSMutableDictionary *nativeTarget = objects[nativeTargetKey];
         NSMutableArray *dependencies = [nativeTarget valueForKey:@"dependencies"];
         [dependencies removeObject:targetDependencyKey];
         nativeTarget[@"dependencies"] = dependencies;
     }
     // remove the PBXTargetDependency
-    [[self objects] removeObjectForKey:targetDependencyKey];
+    [objects removeObjectForKey:targetDependencyKey];
 }
 
 @end

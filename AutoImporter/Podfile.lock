@@ -1,10 +1,20 @@
 PODS:
-  - XcodeEditor (1.6.2)
+  - XcodeEditor (2.0.0)
 
 DEPENDENCIES:
-  - XcodeEditor
+  - XcodeEditor (from `https://github.com/StoneSpb/XcodeEditor.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  XcodeEditor:
+    :branch: master
+    :git: https://github.com/StoneSpb/XcodeEditor.git
+
+CHECKOUT OPTIONS:
+  XcodeEditor:
+    :commit: e36f2311a37fb487e4e4055d903bb3015a18e792
+    :git: https://github.com/StoneSpb/XcodeEditor.git
 
 SPEC CHECKSUMS:
-  XcodeEditor: a1c8786a09a8ccf08779abeb4ba0a1b6347e5647
+  XcodeEditor: 6aed2f4a89dcc37887d90eb7b0895fc5cef5a865
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.37.0

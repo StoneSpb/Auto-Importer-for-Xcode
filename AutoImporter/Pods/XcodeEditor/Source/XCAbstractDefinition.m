@@ -9,9 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import "XCAbstractDefinition.h"
-
 
 @implementation XCAbstractDefinition
 
@@ -30,6 +28,5 @@
     }
     return self;
 }
-
 
 @end

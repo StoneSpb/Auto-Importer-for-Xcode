@@ -9,7 +9,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 
@@ -26,13 +25,11 @@ typedef struct
     unsigned char _value[HASH_VALUE_STORAGE_SIZE];
 }
 
-+ (XCKeyBuilder*)forItemNamed:(NSString*)name;
++ (instancetype)forItemNamed:(NSString*)name;
++ (instancetype)createUnique;
 
-+ (XCKeyBuilder*)createUnique;
-
-- (id)initHashValueMD5HashWithBytes:(const void*)bytes length:(NSUInteger)length;
+- (instancetype)initHashValueMD5HashWithBytes:(const void*)bytes length:(NSUInteger)length;
 
 - (NSString*)build;
 
 @end
-

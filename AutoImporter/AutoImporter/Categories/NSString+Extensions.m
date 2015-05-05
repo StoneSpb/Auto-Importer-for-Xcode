@@ -24,8 +24,7 @@
 }
 
 - (BOOL)mh_isWhitespaceOrNewline {
-	NSString *string = [self stringByReplacingOccurrencesOfString:@" " withString:@""];
-	string = [self stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+	NSString *string = [self mh_stringByRemovingWhitespacesAndNewlines];
 	return string.length == 0;
 }
 

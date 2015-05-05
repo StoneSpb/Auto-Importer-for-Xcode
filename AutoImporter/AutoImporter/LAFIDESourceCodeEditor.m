@@ -7,6 +7,7 @@
 //
 
 #import "LAFIDESourceCodeEditor.h"
+#import "LAFIDESourceCodeEditor_Private.h"
 
 #import "MHXcodeDocumentNavigator.h"
 #import "DVTSourceTextStorage+Operations.h"
@@ -14,8 +15,6 @@
 #import "NSString+Extensions.h"
 #import "LAFIdentifier.h"
 #import "LAFImportStatementFormatter.h"
-
-NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include).*[\",<].*[\",>]";
 
 @interface LAFIDESourceCodeEditor()
 
@@ -33,13 +32,15 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
     [self invalidateImportsCache];
     
     if (!_importedCache) {
-        _importedCache = [NSMutableSet set];
+        _importedCache = [[NSMutableSet alloc] init];
     }
     
     DVTSourceTextStorage *textStorage = [self currentTextStorage];
     [textStorage.string enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
         if ([self isImportString:line]) {
-            [_importedCache addObject:[line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            NSString* trimmedLine =
+                [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            [_importedCache addObject:trimmedLine];
         }
     }];
 }
@@ -77,7 +78,8 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
     
     NSRect keyRectOnTextView = [currentTextView mhFrameForCaret];
     
-    NSTextField *field = [[NSTextField alloc] initWithFrame:CGRectMake(keyRectOnTextView.origin.x, keyRectOnTextView.origin.y, 0, 0)];
+    NSTextField *field = [[NSTextField alloc] initWithFrame:CGRectMake(keyRectOnTextView.origin.x,
+                                                                       keyRectOnTextView.origin.y, 0, 0)];
     [field setBackgroundColor:color];
     [field setFont:currentTextView.font];
     [field setTextColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]];
@@ -110,15 +112,20 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
 
 - (LAFImportResult)addImport:(NSString *)statement {
     BOOL duplicate = NO;
+    BOOL shouldCreateNewImportBlock = NO;
     DVTSourceTextStorage *textStorage = [self currentTextStorage];
-    NSInteger lastLine = [self appropriateLine:textStorage statement:statement duplicate:&duplicate];
+    NSInteger line = [self appropriateLineInSource:textStorage
+                                forImportStatement:statement
+                                       isDuplicate:&duplicate
+                        shouldCreateNewImportBlock:&shouldCreateNewImportBlock];
     
-    if (lastLine != NSNotFound) {
-        NSString *importString = [NSString stringWithFormat:@"%@\n", statement];
+    if (line != NSNotFound) {
+        NSString *importString = [NSString stringWithFormat:@"%@%@\n",
+                                                            shouldCreateNewImportBlock ? @"\n" : @"",
+                                                            statement];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [textStorage mhInsertString:importString
-                                 atLine:lastLine+1];
+            [textStorage mhInsertString:importString atLine:line];
         });
     }
     
@@ -129,28 +136,82 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
     }
 }
 
-- (NSUInteger)appropriateLine:(DVTSourceTextStorage *)source statement:(NSString *)statement duplicate:(BOOL *)duplicate {
+/**
+ * Finds an appropriate line for import statement according to these rules:
+ * - Common imports should be separated by a new line from system and third-party frameworks
+ * - Imports should be sorted in alphabetic order.
+ *
+ * ! duplicate
+ * ! shouldCreateNewImportBlock
+ */
+- (NSUInteger)appropriateLineInSource:(DVTSourceTextStorage *)source
+                   forImportStatement:(NSString *)statement
+                          isDuplicate:(BOOL *)duplicate
+           shouldCreateNewImportBlock:(BOOL *)shouldCreateNewImportBlock {
     __block NSUInteger lineNumber = NSNotFound;
     __block NSUInteger currentLineNumber = 0;
     __block BOOL foundDuplicate = NO;
+
+    __block BOOL hasFrameworkImportInCurrentBlock = NO;
+    __block BOOL exactLineIsFoundForCurrentBlock = NO;
+    __block BOOL currentlyOnNewLine = NO;
+
     [source.string enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
+        // Don't care for now if not import statement
         if ([self isImportString:line]) {
-            if ([line isEqual:statement]) {
+            if (currentlyOnNewLine) {
+                // Reset exact insertion position found for previous block
+                exactLineIsFoundForCurrentBlock = NO;
+                // Reset framework imports flag
+                hasFrameworkImportInCurrentBlock = NO;
+                currentlyOnNewLine = NO;
+            }
+
+            // Compare trimmed lines
+            NSString* trimmedLine = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if ([trimmedLine isEqual:statement]) {
+                // If duplicate is found - no further processing is needed
                 foundDuplicate = YES;
                 *stop = YES;
                 return;
             }
-            lineNumber = currentLineNumber;
+
+            // Track framework imports
+            if ([self isFrameworkImportString:line]) {
+                hasFrameworkImportInCurrentBlock = YES;
+                *shouldCreateNewImportBlock = YES;
+            } else  if (!hasFrameworkImportInCurrentBlock) {
+                // If no frameworks were found - this import block is a candidate for insertion
+                *shouldCreateNewImportBlock = NO;
+                // If an exact insertion position was found - don't process current line
+                if (!exactLineIsFoundForCurrentBlock) {
+                    // Check for alphabetic order violation
+                    if ([statement compare:trimmedLine options:0] == NSOrderedAscending) {
+                        exactLineIsFoundForCurrentBlock = YES;
+                        lineNumber = currentLineNumber;
+                    }
+                }
+            }
+
+            // If an exact insertion position was not found - push the line number down
+            if (!exactLineIsFoundForCurrentBlock) {
+                lineNumber = currentLineNumber;
+            }
+        } else if ([line mh_isWhitespaceOrNewline]) {
+            currentlyOnNewLine = YES;
         }
+
         currentLineNumber++;
     }];
-    
+
+    // Duplicating has a maximum priority
     if (foundDuplicate) {
         *duplicate = YES;
+        *shouldCreateNewImportBlock = NO;
         return NSNotFound;
     }
-    
-    //if no imports are present find the first new line.
+
+    // If no imports are present - find the first new line.
     if (lineNumber == NSNotFound) {
         currentLineNumber = 0;
         [source.string enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
@@ -163,23 +224,47 @@ NSString * const LAFAddImportOperationImportRegexPattern = @"^#.*(import|include
             }
         }];
     }
-    
+
+    // If exact insertion position was not found - place a statement after other ones
+    if (!exactLineIsFoundForCurrentBlock) {
+        lineNumber++;
+    }
     return lineNumber;
 }
 
-- (NSRegularExpression *)importRegex {
-    static NSRegularExpression *_regex = nil;
+- (NSRegularExpression*)importRegex {
+    static NSRegularExpression* _regex = nil;
     if (!_regex) {
-        NSError *error = nil;
-        _regex = [[NSRegularExpression alloc] initWithPattern:LAFAddImportOperationImportRegexPattern
-                                                      options:0
-                                                        error:&error];
+        static NSString* const kImportRegexPattern = @"^#.*(import|include).*[\",<].*[\",>]";
+        _regex = [self createRegexWithPattern:kImportRegexPattern];
     }
     return _regex;
 }
 
-- (BOOL)isImportString:(NSString *)string {
-    NSRegularExpression *regex = [self importRegex];
+- (NSRegularExpression*)frameworkImportRegex {
+    static NSRegularExpression* _regex = nil;
+    if (!_regex) {
+        static NSString* const kFrameworkImportRegexPattern = @"^#.*(import|include).*[<].*[>]";
+        _regex = [self createRegexWithPattern:kFrameworkImportRegexPattern];
+    }
+    return _regex;
+}
+
+- (NSRegularExpression*)createRegexWithPattern:(NSString*)pattern {
+    return [[NSRegularExpression alloc] initWithPattern:pattern
+                                                options:0
+                                                  error:NULL];
+}
+
+- (BOOL)isImportString:(NSString*)string {
+    return [self string:string matchesRegex:[self importRegex]];
+}
+
+- (BOOL)isFrameworkImportString:(NSString*)string {
+    return [self string:string matchesRegex:[self frameworkImportRegex]];
+}
+
+- (BOOL)string:(NSString*)string matchesRegex:(NSRegularExpression*)regex {
     NSInteger numberOfMatches = [regex numberOfMatchesInString:string options:0 range:NSMakeRange(0, string.length)];
     return numberOfMatches > 0;
 }

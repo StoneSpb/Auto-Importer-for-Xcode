@@ -16,9 +16,11 @@
     dispatch_group_notify(self.requestGroup, dispatch_get_main_queue(), ^{
         didComplete = YES;
     });
+
     while (! didComplete) {
         NSTimeInterval const interval = 0.002;
-        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
+        if (! [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                       beforeDate:[NSDate dateWithTimeIntervalSinceNow:interval]]) {
             [NSThread sleepForTimeInterval:interval];
         }
     }

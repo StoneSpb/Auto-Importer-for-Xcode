@@ -62,9 +62,9 @@ static LAFIdentifier * LAFHeaderWithName(NSString *name) {
     
     LAFProjectHeaderCache *headers = [[LAFProjectHeaderCache alloc] initWithProjectPath:_projectPath];
     [headers refreshWithCompletion:^{
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_redColor;"],
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_redColor"],
                               LAFHeaderWithName(@"NSColor+MyColor.h"));
-        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_greenColor;"],
+        XCTAssertEqualObjects([headers headerForIdentifier:@"laf_greenColor"],
                               LAFHeaderWithName(@"NSColor+MyColor.h"));
         XCTAssertEqualObjects([headers headerForIdentifier:@"laf_filterColor:"],
                               LAFHeaderWithName(@"NSColor+MyColor.h"));

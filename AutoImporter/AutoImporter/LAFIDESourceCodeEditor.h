@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 luisfloreani.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 typedef enum {
   LAFImportResultAlready,

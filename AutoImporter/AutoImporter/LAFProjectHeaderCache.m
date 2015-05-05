@@ -139,7 +139,8 @@
         NSString *content = [NSString stringWithContentsOfFile:header.fullPath
                                                       encoding:NSUTF8StringEncoding
                                                          error:&error];
-        if (!content || error) {
+        if (error) {
+            LAFLog(@"Failed to process %@: %@", header.name, error);
             return NO;
         }
         

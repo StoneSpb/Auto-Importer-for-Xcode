@@ -13,7 +13,7 @@
 - (instancetype)initWithName:(NSString *)name {
     self = [super init];
     if (self) {
-        _name = name;
+        _name = [name copy];
     }
     
     return self;
@@ -24,10 +24,12 @@
 }
 
 - (BOOL)isEqual:(id)object {
-    if (![object isKindOfClass:[LAFIdentifier class]])
+    if (![object isKindOfClass:[LAFIdentifier class]]) {
         return NO;
-    
-    return [self.name isEqualToString:[object name]];
+    }
+
+    LAFIdentifier *otherIdentifier = (LAFIdentifier*)object;
+    return [self.name isEqualToString:otherIdentifier.name];
 }
 
 - (NSString *)typeString {
@@ -49,10 +51,6 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"[%@] %@", [self typeString], _name];
-}
-
-- (NSString*)debugDescription {
-    return [NSString stringWithFormat:@"%@: %@", self.description, _fullPath];
 }
 
 - (NSComparisonResult)localizedCaseInsensitiveCompare:(id)obj {

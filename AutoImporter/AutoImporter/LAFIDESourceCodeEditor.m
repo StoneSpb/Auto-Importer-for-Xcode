@@ -186,7 +186,8 @@
                 // If an exact insertion position was found - don't process current line
                 if (!exactLineIsFoundForCurrentBlock) {
                     // Check for alphabetic order violation
-                    if ([statement compare:trimmedLine options:0] == NSOrderedAscending) {
+                    if ([statement compare:trimmedLine
+                                   options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
                         exactLineIsFoundForCurrentBlock = YES;
                         lineNumber = currentLineNumber;
                     }

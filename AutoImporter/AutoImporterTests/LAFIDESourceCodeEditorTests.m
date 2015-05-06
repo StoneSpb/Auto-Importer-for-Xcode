@@ -118,19 +118,19 @@ static DVTSourceTextStorage* SourceWithString(NSString* string) {
     [self expecteForSourceCode:code appropriateLine:4 isDuplicate:NO shouldCreateNewImportBlock:NO];
 }
 
-- (void)testHeadersAreSorted_ShouldBePlacedBetween_CaseDoesMatter {
+- (void)testHeadersAreSorted_ShouldBePlacedBetween_CaseDoesNotMatter {
     NSString* code =
     @"// Comment here                         \n"
     "//                                       \n"
     "                                         \n"
-    "#import \"src/aHeader1.h\"                \n"
-    "#import \"src/aHeader2.h\"                \n"
+    "#import \"src/aHeader1.h\"               \n"
+    "#import \"src/aHeader2.h\"               \n"
     "#import \"src/TestFolder1/Header2.h\"    \n"
     "#import \"src/testFolder2/Header0.h\"    \n"
     "#import \"src/testFolder2/Header3.h\"    \n"
     "                                         \n"
     "@interface MyClass : NSObject            \n";
-    [self expecteForSourceCode:code appropriateLine:6 isDuplicate:NO shouldCreateNewImportBlock:NO];
+    [self expecteForSourceCode:code appropriateLine:5 isDuplicate:NO shouldCreateNewImportBlock:NO];
 }
 
 - (void)testHeadersAreNotSorted_ShouldBePlacedBetween {

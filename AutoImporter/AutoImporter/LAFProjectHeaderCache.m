@@ -55,12 +55,22 @@
     [_identifiersByHeaders removeAllObjects];
     
     XCProject *project = [XCProject projectWithFilePath:self.projectPath];
-    [_headersQueue addOperationWithBlock:^{
-        [self updateProject:project];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            doneBlock();
-        }];
+    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+    __weak NSBlockOperation *weakOperation = operation;
+    [operation addExecutionBlock:^{
+        __strong NSBlockOperation *strongOperation = weakOperation;
+        [self updateProject:project operation:strongOperation];
+        if (!strongOperation.cancelled) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                doneBlock();
+            }];
+        }
     }];
+    [_headersQueue addOperation:operation];
+}
+
+- (void)cancelRefreshOperations {
+    [_headersQueue cancelAllOperations];
 }
 
 - (BOOL)containsHeaderWithPath:(NSString *)headerPath {
@@ -93,7 +103,7 @@
     return _headersByIdentifiers.keyEnumerator.allObjects;
 }
 
-- (void)updateProject:(XCProject *)project {
+- (void)updateProject:(XCProject *)project operation:(NSOperation *)operation {
     NSDate *startDate = [NSDate date];
 
     NSString *projectPath = project.filePath;
@@ -106,6 +116,10 @@
     LAFLog(@"%@: %llu headers", projectName, (uint64_t)project.headerFiles.count);
 
     for (XCSourceFile *header in project.headerFiles) {
+        if (operation.cancelled) {
+            return;
+        }
+
         NSString *fullPath = [header fullPathAgainstProjectDir:projectDir];
         if ([fileManager fileExistsAtPath:fullPath]) {
             [self processHeaderAtPath:fullPath];
@@ -119,6 +133,10 @@
 
     NSArray *missingHeaderFullPaths = [self fullPathsForFiles:missingFiles inDirectory:projectDir];
     for (NSString *headerPath in missingHeaderFullPaths) {
+        if (operation.cancelled) {
+            return;
+        }
+
         [self processHeaderAtPath:headerPath];
     }
 

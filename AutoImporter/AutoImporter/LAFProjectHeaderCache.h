@@ -21,7 +21,9 @@
 - (instancetype)initWithProjectPath:(NSString *)projectPath;
 
 - (void)refreshWithCompletion:(dispatch_block_t)doneBlock;
+- (void)cancelRefreshOperations;
 - (void)refreshHeaderWithPath:(NSString *)headerPath;
+
 - (BOOL)containsHeaderWithPath:(NSString *)headerPath;
 - (LAFIdentifier *)headerForIdentifier:(NSString *)name;
 

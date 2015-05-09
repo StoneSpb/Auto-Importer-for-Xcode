@@ -127,6 +127,7 @@
     }
     
     if (toRemove) {
+        [toRemove cancelRefreshOperations];
         [projects removeObject:toRemove];
     }
 }

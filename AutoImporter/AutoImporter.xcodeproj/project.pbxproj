@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		6119ED181AF613BC0063D3AD /* LAFImportStatementFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6119ED171AF613BC0063D3AD /* LAFImportStatementFormatter.m */; };
 		6119ED1A1AF618CB0063D3AD /* LAFImportStatementFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6119ED191AF618CB0063D3AD /* LAFImportStatementFormatterTests.m */; };
+		615514361AFE0980004B5B2A /* LAFProtocolProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 615514351AFE0980004B5B2A /* LAFProtocolProcessorTests.m */; };
 		615705271AF959B7000CBBD4 /* LAFIDESourceCodeEditorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 615705261AF959B7000CBBD4 /* LAFIDESourceCodeEditorTests.m */; };
 		61897B051AF62315006F6AFF /* LAFImportStatementFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6119ED171AF613BC0063D3AD /* LAFImportStatementFormatter.m */; };
 		61897B081AF62B20006F6AFF /* LAFSrcRootFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 61897B071AF62B20006F6AFF /* LAFSrcRootFinder.m */; };
 		61897B471AF62DC5006F6AFF /* LAFSrcRootFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61897B461AF62DC5006F6AFF /* LAFSrcRootFinderTests.m */; };
 		61897B481AF63070006F6AFF /* LAFSrcRootFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 61897B071AF62B20006F6AFF /* LAFSrcRootFinder.m */; };
+		61D7DBD51AFE539E000F56E2 /* LAFCategoryProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D7DBD41AFE539E000F56E2 /* LAFCategoryProcessorTests.m */; };
 		90A44E1F936B4B668EE81A3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254E2E54B2C942A493C01F55 /* libPods.a */; };
 		C4C9E477D59D4E429E792676 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254E2E54B2C942A493C01F55 /* libPods.a */; };
 		E22C5B3919DDB27C00F11123 /* LAFIDESourceCodeEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = E22C5B3819DDB27C00F11123 /* LAFIDESourceCodeEditor.m */; };
@@ -101,11 +103,13 @@
 		6119ED161AF613BC0063D3AD /* LAFImportStatementFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFImportStatementFormatter.h; sourceTree = "<group>"; };
 		6119ED171AF613BC0063D3AD /* LAFImportStatementFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFImportStatementFormatter.m; sourceTree = "<group>"; };
 		6119ED191AF618CB0063D3AD /* LAFImportStatementFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFImportStatementFormatterTests.m; sourceTree = "<group>"; };
+		615514351AFE0980004B5B2A /* LAFProtocolProcessorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProtocolProcessorTests.m; sourceTree = "<group>"; };
 		615705251AF9587E000CBBD4 /* LAFIDESourceCodeEditor_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LAFIDESourceCodeEditor_Private.h; sourceTree = "<group>"; };
 		615705261AF959B7000CBBD4 /* LAFIDESourceCodeEditorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFIDESourceCodeEditorTests.m; sourceTree = "<group>"; };
 		61897B061AF62B20006F6AFF /* LAFSrcRootFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFSrcRootFinder.h; sourceTree = "<group>"; };
 		61897B071AF62B20006F6AFF /* LAFSrcRootFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFSrcRootFinder.m; sourceTree = "<group>"; };
 		61897B461AF62DC5006F6AFF /* LAFSrcRootFinderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFSrcRootFinderTests.m; sourceTree = "<group>"; };
+		61D7DBD41AFE539E000F56E2 /* LAFCategoryProcessorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFCategoryProcessorTests.m; sourceTree = "<group>"; };
 		845E8E503B30B9CA14DF168F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E22C5B3619DD842900F11123 /* LAFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFLogger.h; sourceTree = "<group>"; };
 		E22C5B3719DDB27C00F11123 /* LAFIDESourceCodeEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFIDESourceCodeEditor.h; sourceTree = "<group>"; };
@@ -386,12 +390,14 @@
 		E2AD80F219C68DF8008D33E1 /* AutoImporterTests */ = {
 			isa = PBXGroup;
 			children = (
+				61D7DBD41AFE539E000F56E2 /* LAFCategoryProcessorTests.m */,
 				E29ED2AB19C9FA91002EF155 /* LAFTestCase.h */,
 				E29ED2AC19C9FA91002EF155 /* LAFTestCase.m */,
 				615705261AF959B7000CBBD4 /* LAFIDESourceCodeEditorTests.m */,
 				6119ED191AF618CB0063D3AD /* LAFImportStatementFormatterTests.m */,
 				E29ED2A919C9FA65002EF155 /* LAFProjectsInspectorTests.m */,
 				E2AD80F819C68DF8008D33E1 /* LAFProjectHeaderCacheTests.m */,
+				615514351AFE0980004B5B2A /* LAFProtocolProcessorTests.m */,
 				61897B461AF62DC5006F6AFF /* LAFSrcRootFinderTests.m */,
 				E2AD80F319C68DF8008D33E1 /* Supporting Files */,
 			);
@@ -627,6 +633,7 @@
 			files = (
 				E2AD810C19C69561008D33E1 /* NSMutableIndexSet+NSArray.m in Sources */,
 				E2733B1D19C763BA00F55A20 /* LAFProjectsInspector.m in Sources */,
+				615514361AFE0980004B5B2A /* LAFProtocolProcessorTests.m in Sources */,
 				E2AD810419C69549008D33E1 /* NSString+XCAdditions.m in Sources */,
 				6119ED1A1AF618CB0063D3AD /* LAFImportStatementFormatterTests.m in Sources */,
 				E2D78B1219EFF030009C21B7 /* LAFElementProcessor.m in Sources */,
@@ -654,6 +661,7 @@
 				E2D78B2219EFF4B9009C21B7 /* LAFIdentifier.m in Sources */,
 				E2AD810D19C69561008D33E1 /* NSObject+MHLogMethods.m in Sources */,
 				E2AD810819C69554008D33E1 /* XCWorkspace.m in Sources */,
+				61D7DBD51AFE539E000F56E2 /* LAFCategoryProcessorTests.m in Sources */,
 				E2AD811019C69561008D33E1 /* NSString+MHNSRange.m in Sources */,
 				E2AD810719C69554008D33E1 /* XCBuildSettings.m in Sources */,
 				E2D78B1A19EFF052009C21B7 /* LAFCategoryProcessor.m in Sources */,

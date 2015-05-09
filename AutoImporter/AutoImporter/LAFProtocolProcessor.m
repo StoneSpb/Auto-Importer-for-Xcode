@@ -12,7 +12,7 @@
 @implementation LAFProtocolProcessor
 
 - (NSString *)pattern {
-    return @"(?:@protocol)\\s+([a-z][a-z0-9_\\s*\()]+)";
+    return @"(?:@protocol)\\s+([a-z][a-z0-9_]+)\\s*(?:$|<)";
 }
 
 - (LAFIdentifierType)identifierType {

@@ -12,7 +12,7 @@
 @implementation LAFCategoryProcessor
 
 - (NSString *)pattern {
-    return @"(?:@interface)\\s+([a-z][a-z0-9_\\s*]+)\\(.+\\)$(.+)^@end";
+    return @"(?:@interface)\\s+([a-z][a-z0-9_\\s*]+)\\(\\s*[^\\s]+\\s*\\)\\s*$(.+)^@end";
 }
 
 - (NSArray *)createElements:(NSString *)content {
@@ -29,15 +29,19 @@
     NSRange matchRange = [match rangeAtIndex:1];
     NSString *matchString = [content substringWithRange:matchRange];
     NSString *matchClass =
-        [matchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+            [matchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
     matchRange = [match rangeAtIndex:2];
     matchString = [content substringWithRange:matchRange];
-    NSString *matchMethods =
-            [matchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray *methods = [matchMethods componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSString *matchMethods = [matchString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSArray *methods = [matchMethods componentsSeparatedByString:@";"];
+    NSUInteger count = methods.count;
+
     NSMutableArray *elements = [[NSMutableArray alloc] init];
-    for (NSString *method in methods) {
+    [methods enumerateObjectsUsingBlock:^(NSString *method, NSUInteger idx, BOOL *stop) {
+        if (idx != count - 1) {
+            method = [method stringByAppendingString:@";"];
+        }
         NSString *signature = [self extractSignature:method];
         if (signature) {
             LAFIdentifier *element = [[LAFIdentifier alloc] init];
@@ -46,12 +50,13 @@
             element.type = LAFIdentifierTypeCategory;
             [elements addObject:element];
         }
-    }
+    }];
     
     return [elements copy];
 }
 
 - (NSString *)extractSignature:(NSString *)method {
+    method = [method stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([method length] == 0) {
         return nil;
     }

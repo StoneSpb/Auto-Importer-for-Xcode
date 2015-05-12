@@ -12,6 +12,7 @@
 #import "LAFClassProcessor.h"
 #import "LAFIdentifier.h"
 #import "LAFProtocolProcessor.h"
+#import "LAFSimpleCommentsParser.h"
 #import "LAFSrcRootFinder.h"
 #import "XCProject.h"
 #import "XCSourceFile+Path.h"
@@ -32,6 +33,8 @@
 
 @property (nonatomic, strong) NSOperationQueue *headersQueue;
 
+@property (nonatomic, strong) LAFSimpleCommentsParser *commentsParser;
+
 @end
 
 @implementation LAFProjectHeaderCache
@@ -46,6 +49,7 @@
         _identifiersByHeaders = [NSMapTable strongToStrongObjectsMapTable];
         _headersQueue = [NSOperationQueue new];
         _headersQueue.maxConcurrentOperationCount = 1;
+        _commentsParser = [[LAFSimpleCommentsParser alloc] init];
     }
     return self;
 }
@@ -161,6 +165,8 @@
             LAFLog(@"Failed to process %@: %@", header.name, error);
             return NO;
         }
+
+        content = [self.commentsParser stripComments:content];
         
         NSMutableArray *identifiers = [_identifiersByHeaders objectForKey:header];
         if (!identifiers) {

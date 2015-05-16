@@ -46,11 +46,11 @@
 		E26F412319C0C52300527019 /* NSString+MHNSRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F410E19C0C52300527019 /* NSString+MHNSRange.m */; };
 		E26F412419C0C52300527019 /* NSTextView+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F411019C0C52300527019 /* NSTextView+Operations.m */; };
 		E26F412519C0C52300527019 /* NSView+Dumping.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F411219C0C52300527019 /* NSView+Dumping.m */; };
-		E26F413719C0C56B00527019 /* NSString+XCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412C19C0C56B00527019 /* NSString+XCAdditions.m */; };
-		E26F413819C0C56B00527019 /* XCProject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412E19C0C56B00527019 /* XCProject+Extensions.m */; };
-		E26F413A19C0C56B00527019 /* XCTarget+XCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413219C0C56B00527019 /* XCTarget+XCProject.m */; };
-		E26F413B19C0C56B00527019 /* XCBuildSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413419C0C56B00527019 /* XCBuildSettings.m */; };
-		E26F413C19C0C56B00527019 /* XCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413619C0C56B00527019 /* XCWorkspace.m */; };
+		E26F413719C0C56B00527019 /* NSString+SXCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412C19C0C56B00527019 /* NSString+SXCAdditions.m */; };
+		E26F413819C0C56B00527019 /* SXCProject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412E19C0C56B00527019 /* SXCProject+Extensions.m */; };
+		E26F413A19C0C56B00527019 /* SXCTarget+SXCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413219C0C56B00527019 /* SXCTarget+SXCProject.m */; };
+		E26F413B19C0C56B00527019 /* SXCBuildSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413419C0C56B00527019 /* SXCBuildSettings.m */; };
+		E26F413C19C0C56B00527019 /* SXCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413619C0C56B00527019 /* SXCWorkspace.m */; };
 		E2733B1C19C763BA00F55A20 /* LAFProjectsInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = E2733B1B19C763BA00F55A20 /* LAFProjectsInspector.m */; };
 		E2733B1D19C763BA00F55A20 /* LAFProjectsInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = E2733B1B19C763BA00F55A20 /* LAFProjectsInspector.m */; };
 		E29ED2AA19C9FA65002EF155 /* LAFProjectsInspectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E29ED2A919C9FA65002EF155 /* LAFProjectsInspectorTests.m */; };
@@ -60,11 +60,11 @@
 		E2AD80F919C68DF8008D33E1 /* LAFProjectHeaderCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AD80F819C68DF8008D33E1 /* LAFProjectHeaderCacheTests.m */; };
 		E2AD810219C690AD008D33E1 /* LAFProjectHeaderCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AD810119C690AD008D33E1 /* LAFProjectHeaderCache.m */; };
 		E2AD810319C690AD008D33E1 /* LAFProjectHeaderCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AD810119C690AD008D33E1 /* LAFProjectHeaderCache.m */; };
-		E2AD810419C69549008D33E1 /* NSString+XCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412C19C0C56B00527019 /* NSString+XCAdditions.m */; };
-		E2AD810519C6954B008D33E1 /* XCProject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412E19C0C56B00527019 /* XCProject+Extensions.m */; };
-		E2AD810619C6954E008D33E1 /* XCTarget+XCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413219C0C56B00527019 /* XCTarget+XCProject.m */; };
-		E2AD810719C69554008D33E1 /* XCBuildSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413419C0C56B00527019 /* XCBuildSettings.m */; };
-		E2AD810819C69554008D33E1 /* XCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413619C0C56B00527019 /* XCWorkspace.m */; };
+		E2AD810419C69549008D33E1 /* NSString+SXCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412C19C0C56B00527019 /* NSString+SXCAdditions.m */; };
+		E2AD810519C6954B008D33E1 /* SXCProject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F412E19C0C56B00527019 /* SXCProject+Extensions.m */; };
+		E2AD810619C6954E008D33E1 /* SXCTarget+SXCProject.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413219C0C56B00527019 /* SXCTarget+SXCProject.m */; };
+		E2AD810719C69554008D33E1 /* SXCBuildSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413419C0C56B00527019 /* SXCBuildSettings.m */; };
+		E2AD810819C69554008D33E1 /* SXCWorkspace.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F413619C0C56B00527019 /* SXCWorkspace.m */; };
 		E2AD810919C69561008D33E1 /* DVTSourceTextStorage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40FA19C0C52300527019 /* DVTSourceTextStorage+Operations.m */; };
 		E2AD810A19C69561008D33E1 /* NSArray+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F410219C0C52300527019 /* NSArray+Operations.m */; };
 		E2AD810B19C69561008D33E1 /* NSFileManager+Headers.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F410419C0C52300527019 /* NSFileManager+Headers.m */; };
@@ -75,7 +75,7 @@
 		E2AD811019C69561008D33E1 /* NSString+MHNSRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F410E19C0C52300527019 /* NSString+MHNSRange.m */; };
 		E2AD811119C69561008D33E1 /* NSTextView+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F411019C0C52300527019 /* NSTextView+Operations.m */; };
 		E2AD811219C69561008D33E1 /* NSView+Dumping.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F411219C0C52300527019 /* NSView+Dumping.m */; };
-		E2AD811319C69561008D33E1 /* XCSourceFile+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5DFF819C1EBBA00666067 /* XCSourceFile+Path.m */; };
+		E2AD811319C69561008D33E1 /* SXCSourceFile+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5DFF819C1EBBA00666067 /* SXCSourceFile+Path.m */; };
 		E2AD811419C6958E008D33E1 /* MHXcodeDocumentNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40F519C0C4DE00527019 /* MHXcodeDocumentNavigator.m */; };
 		E2D78B1119EFF030009C21B7 /* LAFElementProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D78B1019EFF030009C21B7 /* LAFElementProcessor.m */; };
 		E2D78B1219EFF030009C21B7 /* LAFElementProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D78B1019EFF030009C21B7 /* LAFElementProcessor.m */; };
@@ -87,7 +87,7 @@
 		E2D78B1E19EFF0AC009C21B7 /* LAFProtocolProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D78B1C19EFF0AC009C21B7 /* LAFProtocolProcessor.m */; };
 		E2D78B2119EFF4B9009C21B7 /* LAFIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D78B2019EFF4B9009C21B7 /* LAFIdentifier.m */; };
 		E2D78B2219EFF4B9009C21B7 /* LAFIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D78B2019EFF4B9009C21B7 /* LAFIdentifier.m */; };
-		E2F5DFF919C1EBBA00666067 /* XCSourceFile+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5DFF819C1EBBA00666067 /* XCSourceFile+Path.m */; };
+		E2F5DFF919C1EBBA00666067 /* SXCSourceFile+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F5DFF819C1EBBA00666067 /* SXCSourceFile+Path.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,16 +158,16 @@
 		E26F411019C0C52300527019 /* NSTextView+Operations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTextView+Operations.m"; sourceTree = "<group>"; };
 		E26F411119C0C52300527019 /* NSView+Dumping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Dumping.h"; sourceTree = "<group>"; };
 		E26F411219C0C52300527019 /* NSView+Dumping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Dumping.m"; sourceTree = "<group>"; };
-		E26F412B19C0C56B00527019 /* NSString+XCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XCAdditions.h"; sourceTree = "<group>"; };
-		E26F412C19C0C56B00527019 /* NSString+XCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XCAdditions.m"; sourceTree = "<group>"; };
-		E26F412D19C0C56B00527019 /* XCProject+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCProject+Extensions.h"; sourceTree = "<group>"; };
-		E26F412E19C0C56B00527019 /* XCProject+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCProject+Extensions.m"; sourceTree = "<group>"; };
-		E26F413119C0C56B00527019 /* XCTarget+XCProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTarget+XCProject.h"; sourceTree = "<group>"; };
-		E26F413219C0C56B00527019 /* XCTarget+XCProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTarget+XCProject.m"; sourceTree = "<group>"; };
-		E26F413319C0C56B00527019 /* XCBuildSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCBuildSettings.h; sourceTree = "<group>"; };
-		E26F413419C0C56B00527019 /* XCBuildSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCBuildSettings.m; sourceTree = "<group>"; };
-		E26F413519C0C56B00527019 /* XCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCWorkspace.h; sourceTree = "<group>"; };
-		E26F413619C0C56B00527019 /* XCWorkspace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCWorkspace.m; sourceTree = "<group>"; };
+		E26F412B19C0C56B00527019 /* NSString+SXCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SXCAdditions.h"; sourceTree = "<group>"; };
+		E26F412C19C0C56B00527019 /* NSString+SXCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SXCAdditions.m"; sourceTree = "<group>"; };
+		E26F412D19C0C56B00527019 /* SXCProject+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SXCProject+Extensions.h"; sourceTree = "<group>"; };
+		E26F412E19C0C56B00527019 /* SXCProject+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SXCProject+Extensions.m"; sourceTree = "<group>"; };
+		E26F413119C0C56B00527019 /* SXCTarget+SXCProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SXCTarget+SXCProject.h"; sourceTree = "<group>"; };
+		E26F413219C0C56B00527019 /* SXCTarget+SXCProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SXCTarget+SXCProject.m"; sourceTree = "<group>"; };
+		E26F413319C0C56B00527019 /* SXCBuildSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXCBuildSettings.h; sourceTree = "<group>"; };
+		E26F413419C0C56B00527019 /* SXCBuildSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXCBuildSettings.m; sourceTree = "<group>"; };
+		E26F413519C0C56B00527019 /* SXCWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXCWorkspace.h; sourceTree = "<group>"; };
+		E26F413619C0C56B00527019 /* SXCWorkspace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXCWorkspace.m; sourceTree = "<group>"; };
 		E2733B1A19C763BA00F55A20 /* LAFProjectsInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFProjectsInspector.h; sourceTree = "<group>"; };
 		E2733B1B19C763BA00F55A20 /* LAFProjectsInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProjectsInspector.m; sourceTree = "<group>"; };
 		E29ED2A919C9FA65002EF155 /* LAFProjectsInspectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProjectsInspectorTests.m; sourceTree = "<group>"; };
@@ -192,8 +192,8 @@
 		E2D78B1C19EFF0AC009C21B7 /* LAFProtocolProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProtocolProcessor.m; sourceTree = "<group>"; };
 		E2D78B1F19EFF4B9009C21B7 /* LAFIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFIdentifier.h; sourceTree = "<group>"; };
 		E2D78B2019EFF4B9009C21B7 /* LAFIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFIdentifier.m; sourceTree = "<group>"; };
-		E2F5DFF719C1EBBA00666067 /* XCSourceFile+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCSourceFile+Path.h"; sourceTree = "<group>"; };
-		E2F5DFF819C1EBBA00666067 /* XCSourceFile+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCSourceFile+Path.m"; sourceTree = "<group>"; };
+		E2F5DFF719C1EBBA00666067 /* SXCSourceFile+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SXCSourceFile+Path.h"; sourceTree = "<group>"; };
+		E2F5DFF819C1EBBA00666067 /* SXCSourceFile+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SXCSourceFile+Path.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,8 +364,8 @@
 				E26F411019C0C52300527019 /* NSTextView+Operations.m */,
 				E26F411119C0C52300527019 /* NSView+Dumping.h */,
 				E26F411219C0C52300527019 /* NSView+Dumping.m */,
-				E2F5DFF719C1EBBA00666067 /* XCSourceFile+Path.h */,
-				E2F5DFF819C1EBBA00666067 /* XCSourceFile+Path.m */,
+				E2F5DFF719C1EBBA00666067 /* SXCSourceFile+Path.h */,
+				E2F5DFF819C1EBBA00666067 /* SXCSourceFile+Path.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -374,10 +374,10 @@
 			isa = PBXGroup;
 			children = (
 				E26F412A19C0C56B00527019 /* Categories */,
-				E26F413319C0C56B00527019 /* XCBuildSettings.h */,
-				E26F413419C0C56B00527019 /* XCBuildSettings.m */,
-				E26F413519C0C56B00527019 /* XCWorkspace.h */,
-				E26F413619C0C56B00527019 /* XCWorkspace.m */,
+				E26F413319C0C56B00527019 /* SXCBuildSettings.h */,
+				E26F413419C0C56B00527019 /* SXCBuildSettings.m */,
+				E26F413519C0C56B00527019 /* SXCWorkspace.h */,
+				E26F413619C0C56B00527019 /* SXCWorkspace.m */,
 			);
 			path = XcodeEditor;
 			sourceTree = "<group>";
@@ -385,12 +385,12 @@
 		E26F412A19C0C56B00527019 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E26F412B19C0C56B00527019 /* NSString+XCAdditions.h */,
-				E26F412C19C0C56B00527019 /* NSString+XCAdditions.m */,
-				E26F412D19C0C56B00527019 /* XCProject+Extensions.h */,
-				E26F412E19C0C56B00527019 /* XCProject+Extensions.m */,
-				E26F413119C0C56B00527019 /* XCTarget+XCProject.h */,
-				E26F413219C0C56B00527019 /* XCTarget+XCProject.m */,
+				E26F412B19C0C56B00527019 /* NSString+SXCAdditions.h */,
+				E26F412C19C0C56B00527019 /* NSString+SXCAdditions.m */,
+				E26F412D19C0C56B00527019 /* SXCProject+Extensions.h */,
+				E26F412E19C0C56B00527019 /* SXCProject+Extensions.m */,
+				E26F413119C0C56B00527019 /* SXCTarget+SXCProject.h */,
+				E26F413219C0C56B00527019 /* SXCTarget+SXCProject.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -609,26 +609,26 @@
 				617E27C61B0280580018787B /* LAFSimpleCommentsParser.m in Sources */,
 				E2D78B1919EFF052009C21B7 /* LAFCategoryProcessor.m in Sources */,
 				E26F412119C0C52300527019 /* NSString+Extensions.m in Sources */,
-				E26F413C19C0C56B00527019 /* XCWorkspace.m in Sources */,
+				E26F413C19C0C56B00527019 /* SXCWorkspace.m in Sources */,
 				E26F411D19C0C52300527019 /* NSArray+Operations.m in Sources */,
-				E26F413819C0C56B00527019 /* XCProject+Extensions.m in Sources */,
+				E26F413819C0C56B00527019 /* SXCProject+Extensions.m in Sources */,
 				E2D78B1119EFF030009C21B7 /* LAFElementProcessor.m in Sources */,
 				E26F412419C0C52300527019 /* NSTextView+Operations.m in Sources */,
 				E26F411F19C0C52300527019 /* NSMutableIndexSet+NSArray.m in Sources */,
 				E2D78B2119EFF4B9009C21B7 /* LAFIdentifier.m in Sources */,
 				E26F40EB19C0B95500527019 /* LAFAutoImporter.m in Sources */,
-				E26F413A19C0C56B00527019 /* XCTarget+XCProject.m in Sources */,
+				E26F413A19C0C56B00527019 /* SXCTarget+SXCProject.m in Sources */,
 				61897B081AF62B20006F6AFF /* LAFSrcRootFinder.m in Sources */,
 				E26F411919C0C52300527019 /* DVTSourceTextStorage+Operations.m in Sources */,
-				E2F5DFF919C1EBBA00666067 /* XCSourceFile+Path.m in Sources */,
+				E2F5DFF919C1EBBA00666067 /* SXCSourceFile+Path.m in Sources */,
 				E26F411E19C0C52300527019 /* NSFileManager+Headers.m in Sources */,
-				E26F413B19C0C56B00527019 /* XCBuildSettings.m in Sources */,
+				E26F413B19C0C56B00527019 /* SXCBuildSettings.m in Sources */,
 				E2631D0D19DC85E900C3B141 /* LAFIDENotificationHandler.m in Sources */,
 				E264C7DB19CC9DEC00D8DAF7 /* LAFImportListView.m in Sources */,
 				E26F412219C0C52300527019 /* NSString+Files.m in Sources */,
 				E26F40F719C0C4DE00527019 /* MHXcodeDocumentNavigator.m in Sources */,
 				E26F412519C0C52300527019 /* NSView+Dumping.m in Sources */,
-				E26F413719C0C56B00527019 /* NSString+XCAdditions.m in Sources */,
+				E26F413719C0C56B00527019 /* NSString+SXCAdditions.m in Sources */,
 				E2D78B1519EFF046009C21B7 /* LAFClassProcessor.m in Sources */,
 				E26F412319C0C52300527019 /* NSString+MHNSRange.m in Sources */,
 				6119ED181AF613BC0063D3AD /* LAFImportStatementFormatter.m in Sources */,
@@ -644,7 +644,7 @@
 				E2AD810C19C69561008D33E1 /* NSMutableIndexSet+NSArray.m in Sources */,
 				E2733B1D19C763BA00F55A20 /* LAFProjectsInspector.m in Sources */,
 				615514361AFE0980004B5B2A /* LAFProtocolProcessorTests.m in Sources */,
-				E2AD810419C69549008D33E1 /* NSString+XCAdditions.m in Sources */,
+				E2AD810419C69549008D33E1 /* NSString+SXCAdditions.m in Sources */,
 				6119ED1A1AF618CB0063D3AD /* LAFImportStatementFormatterTests.m in Sources */,
 				E2D78B1219EFF030009C21B7 /* LAFElementProcessor.m in Sources */,
 				E2AD811119C69561008D33E1 /* NSTextView+Operations.m in Sources */,
@@ -654,28 +654,28 @@
 				617E27C71B0280580018787B /* LAFSimpleCommentsParser.m in Sources */,
 				E29ED2AA19C9FA65002EF155 /* LAFProjectsInspectorTests.m in Sources */,
 				E29ED2AD19C9FA91002EF155 /* LAFTestCase.m in Sources */,
-				E2AD810619C6954E008D33E1 /* XCTarget+XCProject.m in Sources */,
+				E2AD810619C6954E008D33E1 /* SXCTarget+SXCProject.m in Sources */,
 				61897B051AF62315006F6AFF /* LAFImportStatementFormatter.m in Sources */,
 				E2AD80F919C68DF8008D33E1 /* LAFProjectHeaderCacheTests.m in Sources */,
 				E2AD810A19C69561008D33E1 /* NSArray+Operations.m in Sources */,
 				E264C7DC19CC9DEC00D8DAF7 /* LAFImportListView.m in Sources */,
 				E22C5B3A19DDB27C00F11123 /* LAFIDESourceCodeEditor.m in Sources */,
-				E2AD810519C6954B008D33E1 /* XCProject+Extensions.m in Sources */,
+				E2AD810519C6954B008D33E1 /* SXCProject+Extensions.m in Sources */,
 				617E27C91B0280A30018787B /* LAFSimpleCommentsParserTests.m in Sources */,
 				E2AD810B19C69561008D33E1 /* NSFileManager+Headers.m in Sources */,
 				615705271AF959B7000CBBD4 /* LAFIDESourceCodeEditorTests.m in Sources */,
 				E2AD811219C69561008D33E1 /* NSView+Dumping.m in Sources */,
 				E264C7D819CC9CEA00D8DAF7 /* LAFImportListViewController.m in Sources */,
-				E2AD811319C69561008D33E1 /* XCSourceFile+Path.m in Sources */,
+				E2AD811319C69561008D33E1 /* SXCSourceFile+Path.m in Sources */,
 				E2D78B1E19EFF0AC009C21B7 /* LAFProtocolProcessor.m in Sources */,
 				E2AD810919C69561008D33E1 /* DVTSourceTextStorage+Operations.m in Sources */,
 				61897B471AF62DC5006F6AFF /* LAFSrcRootFinderTests.m in Sources */,
 				E2D78B2219EFF4B9009C21B7 /* LAFIdentifier.m in Sources */,
 				E2AD810D19C69561008D33E1 /* NSObject+MHLogMethods.m in Sources */,
-				E2AD810819C69554008D33E1 /* XCWorkspace.m in Sources */,
+				E2AD810819C69554008D33E1 /* SXCWorkspace.m in Sources */,
 				61D7DBD51AFE539E000F56E2 /* LAFCategoryProcessorTests.m in Sources */,
 				E2AD811019C69561008D33E1 /* NSString+MHNSRange.m in Sources */,
-				E2AD810719C69554008D33E1 /* XCBuildSettings.m in Sources */,
+				E2AD810719C69554008D33E1 /* SXCBuildSettings.m in Sources */,
 				E2D78B1A19EFF052009C21B7 /* LAFCategoryProcessor.m in Sources */,
 				E2AD810319C690AD008D33E1 /* LAFProjectHeaderCache.m in Sources */,
 				61897B481AF63070006F6AFF /* LAFSrcRootFinder.m in Sources */,

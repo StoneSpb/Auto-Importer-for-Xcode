@@ -4,12 +4,14 @@
 //
 
 #import "MHXcodeDocumentNavigator.h"
+
+#import <XcodeEditor/SXCProject.h>
+#import <XcodeEditor/SXCProject+SubProject.h>
+
 #import "NSString+Extensions.h"
-#import "NSString+XCAdditions.h"
+#import "NSString+SXCAdditions.h"
 #import "NSString+Extensions.h"
-#import "XCWorkspace.h"
-#import "XCProject.h"
-#import "XCProject+SubProject.h"
+#import "SXCWorkspace.h"
 
 static NSString * const MHFrameworkExtension    = @"framework";
 static NSString * const MHWhoami                = @"whoami";
@@ -215,23 +217,23 @@ static NSString * const MHXCUserStatePathFormat = @"xcuserdata/%@.xcuserdatad/Us
 }
 
 + (NSString *)currentUserStatePath {
-    NSString *userName = [[MHWhoami xcRunAsCommand] mh_stringByRemovingWhitespacesAndNewlines];
+    NSString *userName = [[MHWhoami sxc_runAsCommand] mh_stringByRemovingWhitespacesAndNewlines];
     NSString *userStatePath = [NSString stringWithFormat:MHXCUserStatePathFormat, userName];
     return [[self currentWorkspacePath] stringByAppendingPathComponent:userStatePath];
 }
 
-+ (XCWorkspace *)currentWorkspace {
-   return [XCWorkspace workspaceWithFilePath:[self currentWorkspacePath]];
++ (SXCWorkspace *)currentWorkspace {
+   return [SXCWorkspace workspaceWithFilePath:[self currentWorkspacePath]];
 }
 
-+ (XCTarget *)currentTarget {
++ (SXCTarget *)currentTarget {
     NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[self currentUserStatePath]];
     NSArray *objects = dictionary[@"$objects"];
     NSUInteger targetIndex = [objects indexOfObject:@"IDENameString"];
     NSString *targetName = objects[targetIndex + 1];
     NSArray *projects = [[self currentWorkspace] projects];
-    for (XCProject *project in projects) {
-        XCTarget *target = [project targetWithName:targetName];
+    for (SXCProject *project in projects) {
+        SXCTarget *target = [project targetWithName:targetName];
         NSLog(@"%@", target);
         if (target) return target;
     }

@@ -8,15 +8,16 @@
 
 #import "LAFProjectHeaderCache.h"
 
+#import <XcodeEditor/SXCProject.h>
+#import <XcodeEditor/SXCSourceFile.h>
+
 #import "LAFCategoryProcessor.h"
 #import "LAFClassProcessor.h"
 #import "LAFIdentifier.h"
 #import "LAFProtocolProcessor.h"
 #import "LAFSimpleCommentsParser.h"
 #import "LAFSrcRootFinder.h"
-#import "XCProject.h"
-#import "XCSourceFile+Path.h"
-#import "XCSourceFile.h"
+#import "SXCSourceFile+Path.h"
 
 #define kPatternRegExp @"regexp"
 #define kPatternType @"type"
@@ -58,7 +59,7 @@
     [_headersByIdentifiers removeAllObjects];
     [_identifiersByHeaders removeAllObjects];
     
-    XCProject *project = [XCProject projectWithFilePath:self.projectPath];
+    SXCProject *project = [SXCProject projectWithFilePath:self.projectPath];
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
     __weak NSBlockOperation *weakOperation = operation;
     [operation addExecutionBlock:^{
@@ -107,7 +108,7 @@
     return _headersByIdentifiers.keyEnumerator.allObjects;
 }
 
-- (void)updateProject:(XCProject *)project operation:(NSOperation *)operation {
+- (void)updateProject:(SXCProject *)project operation:(NSOperation *)operation {
     NSDate *startDate = [NSDate date];
 
     NSString *projectPath = project.filePath;
@@ -119,7 +120,7 @@
 
     LAFLog(@"%@: %llu headers", projectName, (uint64_t)project.headerFiles.count);
 
-    for (XCSourceFile *header in project.headerFiles) {
+    for (SXCSourceFile *header in project.headerFiles) {
         if (operation.cancelled) {
             return;
         }

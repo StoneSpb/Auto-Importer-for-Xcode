@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   XcodeEditor:
-    :commit: e36f2311a37fb487e4e4055d903bb3015a18e792
+    :commit: 019a8a4f61fa72e454c9304c7b07e06cfee2fc4e
     :git: https://github.com/StoneSpb/XcodeEditor.git
 
 SPEC CHECKSUMS:

@@ -40,22 +40,54 @@ static LAFAutoImporter *sharedPlugin;
         self.bundle = plugin;
 
         [self createMenuItem];
+        [self subscribeToMenuNotifications];
     }
     return self;
 }
 
-- (void)createMenuItem {
-    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-    if (menuItem) {
-        [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+- (void)dealloc {
+    [self unsubscribeFromMenuNotifications];
+}
 
-        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Import header"
+#pragma mark - Notifications
+
+- (void)subscribeToMenuNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(menuDidChangeItem:)
+                                                 name:NSMenuDidChangeItemNotification
+                                               object:nil];
+}
+
+- (void)unsubscribeFromMenuNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSMenuDidChangeItemNotification
+                                                  object:nil];
+
+}
+
+- (void)menuDidChangeItem:(NSNotification*)notification {
+    [self unsubscribeFromMenuNotifications];
+
+    [self createMenuItem];
+
+    [self subscribeToMenuNotifications];
+}
+
+#pragma mark -
+
+- (void)createMenuItem {
+    NSString* name = @"Import header";
+    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Editor"];
+    if (menuItem && ![menuItem.submenu itemWithTitle:name]) {
+        [menuItem.submenu addItem:[NSMenuItem separatorItem]];
+
+        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:name
                                                                 action:@selector(importHeaderActionActivated)
                                                          keyEquivalent:@"h"];
         [actionMenuItem setTarget:self];
         [actionMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask+NSControlKeyMask];
 
-        [[menuItem submenu] addItem:actionMenuItem];
+        [menuItem.submenu addItem:actionMenuItem];
     }
 }
 

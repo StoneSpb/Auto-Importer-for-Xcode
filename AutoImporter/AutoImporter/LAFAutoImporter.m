@@ -77,16 +77,15 @@ static LAFAutoImporter *sharedPlugin;
 
 - (void)createMenuItem {
     NSString* name = @"Import header";
-    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Editor"];
+    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
     if (menuItem && ![menuItem.submenu itemWithTitle:name]) {
-        [menuItem.submenu addItem:[NSMenuItem separatorItem]];
-
         NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:name
                                                                 action:@selector(importHeaderActionActivated)
                                                          keyEquivalent:@"h"];
         [actionMenuItem setTarget:self];
         [actionMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask+NSControlKeyMask];
 
+        [menuItem.submenu addItem:[NSMenuItem separatorItem]];
         [menuItem.submenu addItem:actionMenuItem];
     }
 }

@@ -8,6 +8,6 @@
 
 #import <AppKit/AppKit.h>
 
-@interface LAFAutoImporter : NSObject
+@interface LAFEasyImporter : NSObject
 
 @end

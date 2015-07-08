@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>14D136</string>
+	<string>14E46</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Auto-Importer</string>
+	<string>Easy-Importer</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.luisfloreani.Auto-Importer</string>
+	<string>com.stone.Easy-Importer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Auto-Importer</string>
+	<string>Easy-Importer</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,7 +25,7 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>6E23</string>
+	<string>6E35b</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
@@ -35,7 +35,7 @@
 	<key>DTXcode</key>
 	<string>0640</string>
 	<key>DTXcodeBuild</key>
-	<string>6E23</string>
+	<string>6E35b</string>
 	<key>DVTPlugInCompatibilityUUIDs</key>
 	<array>
 		<string>FEC992CC-CA4A-4CFD-8881-77300FCB848A</string>
@@ -48,9 +48,10 @@
 		<string>9F75337B-21B4-4ADC-B558-F9CADF7073A7</string>
 		<string>992275C1-432A-4CF7-B659-D84ED6D42D3F</string>
 		<string>E969541F-E6F9-4D25-8158-72DC3545A6C6</string>
+		<string>7FDF5C7A-131F-4ABB-9EDC-8C5F8F0B8A90</string>
 	</array>
 	<key>NSPrincipalClass</key>
-	<string>LAFAutoImporter</string>
+	<string>LAFEasyImporter</string>
 	<key>XC4Compatible</key>
 	<true/>
 	<key>XC5Compatible</key>

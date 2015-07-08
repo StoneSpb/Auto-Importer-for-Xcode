@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.luisfloreani.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.stone.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -34,9 +34,10 @@
 		<string>9F75337B-21B4-4ADC-B558-F9CADF7073A7</string>
 		<string>992275C1-432A-4CF7-B659-D84ED6D42D3F</string>
 		<string>E969541F-E6F9-4D25-8158-72DC3545A6C6</string>
+		<string>7FDF5C7A-131F-4ABB-9EDC-8C5F8F0B8A90</string>
 	</array>
 	<key>NSPrincipalClass</key>
-	<string>LAFAutoImporter</string>
+	<string>LAFEasyImporter</string>
 	<key>XC4Compatible</key>
 	<true/>
 	<key>XC5Compatible</key>

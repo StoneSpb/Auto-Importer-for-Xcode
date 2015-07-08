@@ -34,7 +34,7 @@
 		E26F40E019C0B95500527019 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26F40DF19C0B95500527019 /* AppKit.framework */; };
 		E26F40E219C0B95500527019 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26F40E119C0B95500527019 /* Foundation.framework */; };
 		E26F40E819C0B95500527019 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26F40E619C0B95500527019 /* InfoPlist.strings */; };
-		E26F40EB19C0B95500527019 /* LAFAutoImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40EA19C0B95500527019 /* LAFAutoImporter.m */; };
+		E26F40EB19C0B95500527019 /* LAFEasyImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40EA19C0B95500527019 /* LAFEasyImporter.m */; };
 		E26F40F719C0C4DE00527019 /* MHXcodeDocumentNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40F519C0C4DE00527019 /* MHXcodeDocumentNavigator.m */; };
 		E26F411919C0C52300527019 /* DVTSourceTextStorage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F40FA19C0C52300527019 /* DVTSourceTextStorage+Operations.m */; };
 		E26F411D19C0C52300527019 /* NSArray+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = E26F410219C0C52300527019 /* NSArray+Operations.m */; };
@@ -96,7 +96,7 @@
 			containerPortal = E26F40D419C0B95500527019 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E26F40DB19C0B95500527019;
-			remoteInfo = AutoImporter;
+			remoteInfo = EasyImporter;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -122,19 +122,19 @@
 		E22C5B3819DDB27C00F11123 /* LAFIDESourceCodeEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFIDESourceCodeEditor.m; sourceTree = "<group>"; };
 		E2631D0B19DC85E900C3B141 /* LAFIDENotificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFIDENotificationHandler.h; sourceTree = "<group>"; };
 		E2631D0C19DC85E900C3B141 /* LAFIDENotificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFIDENotificationHandler.m; sourceTree = "<group>"; };
-		E264C7D219CC9BD700D8DAF7 /* LAFImportListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LAFImportListView.xib; path = AutoImporter/LAFImportListView.xib; sourceTree = SOURCE_ROOT; };
+		E264C7D219CC9BD700D8DAF7 /* LAFImportListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LAFImportListView.xib; path = EasyImporter/LAFImportListView.xib; sourceTree = SOURCE_ROOT; };
 		E264C7D519CC9CEA00D8DAF7 /* LAFImportListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFImportListViewController.h; sourceTree = "<group>"; };
 		E264C7D619CC9CEA00D8DAF7 /* LAFImportListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFImportListViewController.m; sourceTree = "<group>"; };
 		E264C7D919CC9DEC00D8DAF7 /* LAFImportListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFImportListView.h; sourceTree = "<group>"; };
 		E264C7DA19CC9DEC00D8DAF7 /* LAFImportListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFImportListView.m; sourceTree = "<group>"; };
-		E26F40DC19C0B95500527019 /* Auto-Importer.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Auto-Importer.xcplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E26F40DC19C0B95500527019 /* Easy-Importer.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Easy-Importer.xcplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26F40DF19C0B95500527019 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E26F40E119C0B95500527019 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		E26F40E519C0B95500527019 /* AutoImporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AutoImporter-Info.plist"; sourceTree = "<group>"; };
+		E26F40E519C0B95500527019 /* EasyImporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EasyImporter-Info.plist"; sourceTree = "<group>"; };
 		E26F40E719C0B95500527019 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E26F40E919C0B95500527019 /* LAFAutoImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LAFAutoImporter.h; sourceTree = "<group>"; };
-		E26F40EA19C0B95500527019 /* LAFAutoImporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LAFAutoImporter.m; sourceTree = "<group>"; };
-		E26F40EC19C0B95500527019 /* AutoImporter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoImporter-Prefix.pch"; sourceTree = "<group>"; };
+		E26F40E919C0B95500527019 /* LAFEasyImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LAFEasyImporter.h; sourceTree = "<group>"; };
+		E26F40EA19C0B95500527019 /* LAFEasyImporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LAFEasyImporter.m; sourceTree = "<group>"; };
+		E26F40EC19C0B95500527019 /* EasyImporter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyImporter-Prefix.pch"; sourceTree = "<group>"; };
 		E26F40F419C0C4DE00527019 /* MHXcodeDocumentNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHXcodeDocumentNavigator.h; sourceTree = "<group>"; };
 		E26F40F519C0C4DE00527019 /* MHXcodeDocumentNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHXcodeDocumentNavigator.m; sourceTree = "<group>"; };
 		E26F40F619C0C4DE00527019 /* XCFXcodePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCFXcodePrivate.h; sourceTree = "<group>"; };
@@ -173,15 +173,15 @@
 		E29ED2A919C9FA65002EF155 /* LAFProjectsInspectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProjectsInspectorTests.m; sourceTree = "<group>"; };
 		E29ED2AB19C9FA91002EF155 /* LAFTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFTestCase.h; sourceTree = "<group>"; };
 		E29ED2AC19C9FA91002EF155 /* LAFTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFTestCase.m; sourceTree = "<group>"; };
-		E2AD80EF19C68DF8008D33E1 /* Auto-ImporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Auto-ImporterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2AD80EF19C68DF8008D33E1 /* Easy-ImporterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Easy-ImporterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AD80F019C68DF8008D33E1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		E2AD80F419C68DF8008D33E1 /* AutoImporterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AutoImporterTests-Info.plist"; sourceTree = "<group>"; };
+		E2AD80F419C68DF8008D33E1 /* EasyImporterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EasyImporterTests-Info.plist"; sourceTree = "<group>"; };
 		E2AD80F619C68DF8008D33E1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E2AD80F819C68DF8008D33E1 /* LAFProjectHeaderCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LAFProjectHeaderCacheTests.m; sourceTree = "<group>"; };
-		E2AD80FA19C68DF8008D33E1 /* AutoImporterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoImporterTests-Prefix.pch"; sourceTree = "<group>"; };
+		E2AD80FA19C68DF8008D33E1 /* EasyImporterTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EasyImporterTests-Prefix.pch"; sourceTree = "<group>"; };
 		E2AD810019C690AD008D33E1 /* LAFProjectHeaderCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFProjectHeaderCache.h; sourceTree = "<group>"; };
 		E2AD810119C690AD008D33E1 /* LAFProjectHeaderCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFProjectHeaderCache.m; sourceTree = "<group>"; };
-		E2AD811619C695B5008D33E1 /* libPods-XcodeEditor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-XcodeEditor.a"; path = "../../../Library/Developer/Xcode/DerivedData/AutoImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug/libPods-XcodeEditor.a"; sourceTree = "<group>"; };
+		E2AD811619C695B5008D33E1 /* libPods-XcodeEditor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-XcodeEditor.a"; path = "../../../Library/Developer/Xcode/DerivedData/EasyImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug/libPods-XcodeEditor.a"; sourceTree = "<group>"; };
 		E2D78B0F19EFF030009C21B7 /* LAFElementProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFElementProcessor.h; sourceTree = "<group>"; };
 		E2D78B1019EFF030009C21B7 /* LAFElementProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LAFElementProcessor.m; sourceTree = "<group>"; };
 		E2D78B1319EFF046009C21B7 /* LAFClassProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAFClassProcessor.h; sourceTree = "<group>"; };
@@ -257,8 +257,8 @@
 		E26F40D319C0B95500527019 = {
 			isa = PBXGroup;
 			children = (
-				E26F40E319C0B95500527019 /* AutoImporter */,
-				E2AD80F219C68DF8008D33E1 /* AutoImporterTests */,
+				E26F40E319C0B95500527019 /* EasyImporter */,
+				E2AD80F219C68DF8008D33E1 /* EasyImporterTests */,
 				E26F40DE19C0B95500527019 /* Frameworks */,
 				E26F40DD19C0B95500527019 /* Products */,
 				C036A8EE277DF43B5ADBD288 /* Pods */,
@@ -268,8 +268,8 @@
 		E26F40DD19C0B95500527019 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E26F40DC19C0B95500527019 /* Auto-Importer.xcplugin */,
-				E2AD80EF19C68DF8008D33E1 /* Auto-ImporterTests.xctest */,
+				E26F40DC19C0B95500527019 /* Easy-Importer.xcplugin */,
+				E2AD80EF19C68DF8008D33E1 /* Easy-ImporterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,7 +286,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E26F40E319C0B95500527019 /* AutoImporter */ = {
+		E26F40E319C0B95500527019 /* EasyImporter */ = {
 			isa = PBXGroup;
 			children = (
 				E26F40F219C0C4DE00527019 /* External */,
@@ -294,8 +294,8 @@
 				61C9FA5F1AEC11DB00DD637F /* Editor */,
 				E2D78B0E19EFF005009C21B7 /* Processors */,
 				6119ED151AF613400063D3AD /* UI */,
-				E26F40E919C0B95500527019 /* LAFAutoImporter.h */,
-				E26F40EA19C0B95500527019 /* LAFAutoImporter.m */,
+				E26F40E919C0B95500527019 /* LAFEasyImporter.h */,
+				E26F40EA19C0B95500527019 /* LAFEasyImporter.m */,
 				E2631D0B19DC85E900C3B141 /* LAFIDENotificationHandler.h */,
 				E2631D0C19DC85E900C3B141 /* LAFIDENotificationHandler.m */,
 				E2D78B1F19EFF4B9009C21B7 /* LAFIdentifier.h */,
@@ -309,15 +309,15 @@
 				61897B071AF62B20006F6AFF /* LAFSrcRootFinder.m */,
 				E26F40E419C0B95500527019 /* Supporting Files */,
 			);
-			path = AutoImporter;
+			path = EasyImporter;
 			sourceTree = "<group>";
 		};
 		E26F40E419C0B95500527019 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E26F40E519C0B95500527019 /* AutoImporter-Info.plist */,
+				E26F40E519C0B95500527019 /* EasyImporter-Info.plist */,
 				E26F40E619C0B95500527019 /* InfoPlist.strings */,
-				E26F40EC19C0B95500527019 /* AutoImporter-Prefix.pch */,
+				E26F40EC19C0B95500527019 /* EasyImporter-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		E2AD80F219C68DF8008D33E1 /* AutoImporterTests */ = {
+		E2AD80F219C68DF8008D33E1 /* EasyImporterTests */ = {
 			isa = PBXGroup;
 			children = (
 				61D7DBD41AFE539E000F56E2 /* LAFCategoryProcessorTests.m */,
@@ -410,15 +410,15 @@
 				E29ED2AC19C9FA91002EF155 /* LAFTestCase.m */,
 				E2AD80F319C68DF8008D33E1 /* Supporting Files */,
 			);
-			path = AutoImporterTests;
+			path = EasyImporterTests;
 			sourceTree = "<group>";
 		};
 		E2AD80F319C68DF8008D33E1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E2AD80F419C68DF8008D33E1 /* AutoImporterTests-Info.plist */,
+				E2AD80F419C68DF8008D33E1 /* EasyImporterTests-Info.plist */,
 				E2AD80F519C68DF8008D33E1 /* InfoPlist.strings */,
-				E2AD80FA19C68DF8008D33E1 /* AutoImporterTests-Prefix.pch */,
+				E2AD80FA19C68DF8008D33E1 /* EasyImporterTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -441,9 +441,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E26F40DB19C0B95500527019 /* Auto-Importer */ = {
+		E26F40DB19C0B95500527019 /* Easy-Importer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E26F40EF19C0B95500527019 /* Build configuration list for PBXNativeTarget "Auto-Importer" */;
+			buildConfigurationList = E26F40EF19C0B95500527019 /* Build configuration list for PBXNativeTarget "Easy-Importer" */;
 			buildPhases = (
 				63FB692D67944E09B153F967 /* Check Pods Manifest.lock */,
 				E26F40D819C0B95500527019 /* Sources */,
@@ -455,14 +455,14 @@
 			);
 			dependencies = (
 			);
-			name = "Auto-Importer";
-			productName = AutoImporter;
-			productReference = E26F40DC19C0B95500527019 /* Auto-Importer.xcplugin */;
+			name = "Easy-Importer";
+			productName = EasyImporter;
+			productReference = E26F40DC19C0B95500527019 /* Easy-Importer.xcplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
-		E2AD80EE19C68DF8008D33E1 /* Auto-ImporterTests */ = {
+		E2AD80EE19C68DF8008D33E1 /* Easy-ImporterTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2AD80FF19C68DF8008D33E1 /* Build configuration list for PBXNativeTarget "Auto-ImporterTests" */;
+			buildConfigurationList = E2AD80FF19C68DF8008D33E1 /* Build configuration list for PBXNativeTarget "Easy-ImporterTests" */;
 			buildPhases = (
 				6E3A5B48AFA84A9CB2031C34 /* Check Pods Manifest.lock */,
 				E2AD80EB19C68DF8008D33E1 /* Sources */,
@@ -475,9 +475,9 @@
 			dependencies = (
 				E2AD80FC19C68DF8008D33E1 /* PBXTargetDependency */,
 			);
-			name = "Auto-ImporterTests";
-			productName = AutoImporterTests;
-			productReference = E2AD80EF19C68DF8008D33E1 /* Auto-ImporterTests.xctest */;
+			name = "Easy-ImporterTests";
+			productName = EasyImporterTests;
+			productReference = E2AD80EF19C68DF8008D33E1 /* Easy-ImporterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -488,14 +488,14 @@
 			attributes = {
 				CLASSPREFIX = LAF;
 				LastUpgradeCheck = 0600;
-				ORGANIZATIONNAME = luisfloreani.com;
+				ORGANIZATIONNAME = stone.com;
 				TargetAttributes = {
 					E2AD80EE19C68DF8008D33E1 = {
 						TestTargetID = E26F40DB19C0B95500527019;
 					};
 				};
 			};
-			buildConfigurationList = E26F40D719C0B95500527019 /* Build configuration list for PBXProject "AutoImporter" */;
+			buildConfigurationList = E26F40D719C0B95500527019 /* Build configuration list for PBXProject "EasyImporter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -507,8 +507,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E26F40DB19C0B95500527019 /* Auto-Importer */,
-				E2AD80EE19C68DF8008D33E1 /* Auto-ImporterTests */,
+				E26F40DB19C0B95500527019 /* Easy-Importer */,
+				E2AD80EE19C68DF8008D33E1 /* Easy-ImporterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -616,7 +616,7 @@
 				E26F412419C0C52300527019 /* NSTextView+Operations.m in Sources */,
 				E26F411F19C0C52300527019 /* NSMutableIndexSet+NSArray.m in Sources */,
 				E2D78B2119EFF4B9009C21B7 /* LAFIdentifier.m in Sources */,
-				E26F40EB19C0B95500527019 /* LAFAutoImporter.m in Sources */,
+				E26F40EB19C0B95500527019 /* LAFEasyImporter.m in Sources */,
 				E26F413A19C0C56B00527019 /* SXCTarget+SXCProject.m in Sources */,
 				61897B081AF62B20006F6AFF /* LAFSrcRootFinder.m in Sources */,
 				E26F411919C0C52300527019 /* DVTSourceTextStorage+Operations.m in Sources */,
@@ -689,7 +689,7 @@
 /* Begin PBXTargetDependency section */
 		E2AD80FC19C68DF8008D33E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E26F40DB19C0B95500527019 /* Auto-Importer */;
+			target = E26F40DB19C0B95500527019 /* Easy-Importer */;
 			targetProxy = E2AD80FB19C68DF8008D33E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -792,8 +792,8 @@
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(HOME)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AutoImporter/AutoImporter-Prefix.pch";
-				INFOPLIST_FILE = "AutoImporter/AutoImporter-Info.plist";
+				GCC_PREFIX_HEADER = "EasyImporter/EasyImporter-Prefix.pch";
+				INFOPLIST_FILE = "EasyImporter/EasyImporter-Info.plist";
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xcplugin;
@@ -808,8 +808,8 @@
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(HOME)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AutoImporter/AutoImporter-Prefix.pch";
-				INFOPLIST_FILE = "AutoImporter/AutoImporter-Info.plist";
+				GCC_PREFIX_HEADER = "EasyImporter/EasyImporter-Prefix.pch";
+				INFOPLIST_FILE = "EasyImporter/EasyImporter-Info.plist";
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xcplugin;
@@ -826,15 +826,15 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AutoImporterTests/AutoImporterTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "EasyImporterTests/EasyImporterTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "AutoImporterTests/AutoImporterTests-Info.plist";
+				INFOPLIST_FILE = "EasyImporterTests/EasyImporterTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/AutoImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/EasyImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
@@ -851,11 +851,11 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AutoImporterTests/AutoImporterTests-Prefix.pch";
-				INFOPLIST_FILE = "AutoImporterTests/AutoImporterTests-Info.plist";
+				GCC_PREFIX_HEADER = "EasyImporterTests/EasyImporterTests-Prefix.pch";
+				INFOPLIST_FILE = "EasyImporterTests/EasyImporterTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/AutoImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/EasyImporter-cceunrmpqmnhdigbhxyrqyfmkjee/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
@@ -865,7 +865,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E26F40D719C0B95500527019 /* Build configuration list for PBXProject "AutoImporter" */ = {
+		E26F40D719C0B95500527019 /* Build configuration list for PBXProject "EasyImporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E26F40ED19C0B95500527019 /* Debug */,
@@ -874,7 +874,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E26F40EF19C0B95500527019 /* Build configuration list for PBXNativeTarget "Auto-Importer" */ = {
+		E26F40EF19C0B95500527019 /* Build configuration list for PBXNativeTarget "Easy-Importer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E26F40F019C0B95500527019 /* Debug */,
@@ -883,7 +883,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2AD80FF19C68DF8008D33E1 /* Build configuration list for PBXNativeTarget "Auto-ImporterTests" */ = {
+		E2AD80FF19C68DF8008D33E1 /* Build configuration list for PBXNativeTarget "Easy-ImporterTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2AD80FD19C68DF8008D33E1 /* Debug */,

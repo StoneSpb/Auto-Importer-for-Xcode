@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E26F40DB19C0B95500527019"
-               BuildableName = "Auto-Importer.xcplugin"
-               BlueprintName = "Auto-Importer"
-               ReferencedContainer = "container:AutoImporter.xcodeproj">
+               BuildableName = "Easy-Importer.xcplugin"
+               BlueprintName = "Easy-Importer"
+               ReferencedContainer = "container:EasyImporter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2AD80EE19C68DF8008D33E1"
-               BuildableName = "Auto-ImporterTests.xctest"
-               BlueprintName = "Auto-ImporterTests"
-               ReferencedContainer = "container:AutoImporter.xcodeproj">
+               BuildableName = "Easy-ImporterTests.xctest"
+               BlueprintName = "Easy-ImporterTests"
+               ReferencedContainer = "container:EasyImporter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2AD80EE19C68DF8008D33E1"
-               BuildableName = "Auto-ImporterTests.xctest"
-               BlueprintName = "Auto-ImporterTests"
-               ReferencedContainer = "container:AutoImporter.xcodeproj">
+               BuildableName = "Easy-ImporterTests.xctest"
+               BlueprintName = "Easy-ImporterTests"
+               ReferencedContainer = "container:EasyImporter.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E26F40DB19C0B95500527019"
-            BuildableName = "Auto-Importer.xcplugin"
-            BlueprintName = "Auto-Importer"
-            ReferencedContainer = "container:AutoImporter.xcodeproj">
+            BuildableName = "Easy-Importer.xcplugin"
+            BlueprintName = "Easy-Importer"
+            ReferencedContainer = "container:EasyImporter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E26F40DB19C0B95500527019"
-            BuildableName = "Auto-Importer.xcplugin"
-            BlueprintName = "Auto-Importer"
-            ReferencedContainer = "container:AutoImporter.xcodeproj">
+            BuildableName = "Easy-Importer.xcplugin"
+            BlueprintName = "Easy-Importer"
+            ReferencedContainer = "container:EasyImporter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <CommandLineArguments>
@@ -106,9 +106,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E26F40DB19C0B95500527019"
-            BuildableName = "Auto-Importer.xcplugin"
-            BlueprintName = "Auto-Importer"
-            ReferencedContainer = "container:AutoImporter.xcodeproj">
+            BuildableName = "Easy-Importer.xcplugin"
+            BlueprintName = "Easy-Importer"
+            ReferencedContainer = "container:EasyImporter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

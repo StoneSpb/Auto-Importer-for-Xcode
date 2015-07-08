@@ -6,18 +6,18 @@
 //    Copyright (c) 2014 luisfloreani.com. All rights reserved.
 //
 
-#import "LAFAutoImporter.h"
+#import "LAFEasyImporter.h"
 
 #import "LAFProjectsInspector.h"
 #import "LAFIDENotificationHandler.h"
 
-static LAFAutoImporter *sharedPlugin;
+static LAFEasyImporter *sharedPlugin;
 
-@interface LAFAutoImporter()
+@interface LAFEasyImporter()
 @property (nonatomic, strong) NSBundle *bundle;
 @end
 
-@implementation LAFAutoImporter
+@implementation LAFEasyImporter
 
 + (void)pluginDidLoad:(NSBundle *)plugin
 {
